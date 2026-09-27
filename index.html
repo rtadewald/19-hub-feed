@@ -232,11 +232,11 @@
       .shortcut:hover { border-color: rgb(45 212 191 / .3); color: #fff; background: rgb(20 184 166 / .09); }
       .shortcut .icon { width: 16px; height: 16px; color: var(--ui-accent-light); }
       .shortcut .icon--brand { fill: currentColor; stroke: none; }
-      .shortcut--glow { position: relative; isolation: isolate; justify-content: flex-start; overflow: hidden; gap: 8px; padding: 7px 10px 7px 8px; border: 0; border-radius: 999px; color: #f4f7f6; background: linear-gradient(to bottom, rgb(255 255 255 / .2), rgb(255 255 255 / .03)); box-shadow: 0 0 25px rgb(45 212 191 / .3), 0 8px 40px rgb(45 212 191 / .15); }
+      .shortcut--glow { position: relative; isolation: isolate; justify-content: flex-start; overflow: hidden; gap: 8px; padding: 7px 10px 7px 8px; border: 0; border-radius: 12px; color: #f4f7f6; background: linear-gradient(to bottom, rgb(255 255 255 / .2), rgb(255 255 255 / .03)); box-shadow: 0 0 25px rgb(45 212 191 / .3), 0 8px 40px rgb(45 212 191 / .15); }
       .shortcut--glow:hover { background: linear-gradient(to bottom, rgb(255 255 255 / .2), rgb(255 255 255 / .03)); box-shadow: 0 0 35px rgb(45 212 191 / .4); }
       .shortcut__glow-border { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
       .shortcut__glow-spin { position: absolute; inset: -100%; background: conic-gradient(transparent 0deg 80deg, rgb(45 212 191 / .75) 180deg, transparent 280deg 360deg); animation: shortcut-glow-spin 3s linear infinite; }
-      .shortcut__glow-inner { position: absolute; inset: 1px; border-radius: 999px; background: rgb(10 10 10 / .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); pointer-events: none; }
+      .shortcut__glow-inner { position: absolute; inset: 1px; border-radius: 11px; background: rgb(10 10 10 / .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); pointer-events: none; }
       .shortcut--glow > .icon, .shortcut__label, .shortcut__arrow { position: relative; z-index: 1; }
       .shortcut--glow > .icon { width: 28px; height: 28px; flex: none; padding: 6px; border-radius: 50%; color: #fff; background: linear-gradient(to bottom, var(--ui-accent-light), var(--ui-accent-dark)); box-shadow: 0 5px 14px rgb(45 212 191 / .3), 0 0 0 1px rgb(255 255 255 / .2); }
       .shortcut__label { font-size: 12px; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; }
