@@ -142,9 +142,7 @@
       .filter .icon { width: 14px; height: 14px; }
 
       .posts { display: grid; align-content: start; gap: 16px; }
-      .featured__pagination { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 1px 0 10px; }
-      .featured__dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: rgb(255 255 255 / .3); transition: width .2s ease, background .2s ease; }
-      .featured__dot[aria-pressed="true"] { width: 22px; border-radius: 999px; background: var(--ui-accent); }
+      .featured { display: grid; gap: 16px; }
       .post { min-width: 0; padding: 23px; border-radius: 20px; }
       .post--featured { position: relative; border-color: rgb(45 212 191 / .72); background: rgb(255 255 255 / .055); }
       .post--featured .post__header { padding-right: 74px; }
@@ -369,11 +367,7 @@
 
             <div class="posts" aria-live="polite">
               <section class="featured" aria-label="Posts fixados">
-                <div class="featured__pagination" role="group" aria-label="Selecionar post fixado">
-                  <button class="featured__dot" type="button" data-featured-dot="0" aria-label="Mostrar primeiro post fixado" aria-pressed="true"></button>
-                  <button class="featured__dot" type="button" data-featured-dot="1" aria-label="Mostrar segundo post fixado" aria-pressed="false"></button>
-                </div>
-                <article class="post post--featured glass-card" data-featured-slide data-featured-id="onboarding" data-expanded="false">
+                <article class="post post--featured glass-card" data-featured-post data-featured-id="onboarding" data-expanded="false">
                   <span class="featured__badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 6 3 3v2H6v-2l3-3-1-6Zm4 11v7"/></svg>Fixado</span>
                   <div class="post__header">
                     <div class="author"><span class="author__avatar author__avatar--brand" aria-hidden="true">A</span><span><span class="author__name">Asimov Academy <span class="author__verified" aria-label="Perfil verificado"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></span><span class="author__meta">há 2 dias</span></span></div>
@@ -389,7 +383,7 @@
                   </div>
                   <div class="post__comments" id="post-comments-featured-onboarding" hidden><p class="post__comments-title">Comentários</p><div class="post__comment"><strong>Equipe Asimov</strong><span>Conte com a gente nessa jornada.</span></div><form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar no post fixado" required /><button type="submit">Enviar</button></form></div>
                 </article>
-                <article class="post post--featured glass-card" data-featured-slide data-featured-id="live-agents" data-expanded="false" hidden>
+                <article class="post post--featured glass-card" data-featured-post data-featured-id="live-agents" data-expanded="false">
                   <span class="featured__badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 6 3 3v2H6v-2l3-3-1-6Zm4 11v7"/></svg>Fixado</span>
                   <div class="post__header">
                     <div class="author"><img class="author__avatar" src="assets/reference/instructor-juliano.webp" alt="" /><span><span class="author__name">Juliano <span class="author__verified" aria-label="Professor verificado"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></span><span class="author__meta">há 1 dia</span></span></div>
@@ -555,8 +549,7 @@
       const posts = document.querySelectorAll('[data-kind]');
       const feedback = document.querySelector('#feedback');
       const featured = document.querySelector('.featured');
-      const featuredSlides = [...document.querySelectorAll('[data-featured-slide]')];
-      const featuredDots = [...document.querySelectorAll('[data-featured-dot]')];
+      const featuredPosts = [...document.querySelectorAll('[data-featured-post]')];
       const navGroups = document.querySelectorAll('.nav__group');
       let feedbackTimer;
 
@@ -682,26 +675,19 @@
         });
       });
 
-      featuredSlides.forEach(slide => {
-        try { slide.dataset.completed = String(localStorage.getItem(`asimov-hub-featured-${slide.dataset.featuredId}-complete`) === 'true'); }
-        catch (_) { slide.dataset.completed = 'false'; }
+      featuredPosts.forEach(post => {
+        try { post.dataset.completed = String(localStorage.getItem(`asimov-hub-featured-${post.dataset.featuredId}-complete`) === 'true'); }
+        catch (_) { post.dataset.completed = 'false'; }
       });
-      function showFeatured(target) {
-        const available = featuredSlides.filter(slide => slide.dataset.completed !== 'true');
-        const active = available.includes(target) ? target : available[0];
-        featured.hidden = available.length === 0;
-        featuredSlides.forEach(slide => { slide.hidden = slide !== active; });
-        featuredDots.forEach((dot, index) => {
-          dot.hidden = !available.includes(featuredSlides[index]);
-          dot.setAttribute('aria-pressed', String(featuredSlides[index] === active));
-        });
+      function updateFeatured() {
+        featuredPosts.forEach(post => { post.hidden = post.dataset.completed === 'true'; });
+        featured.hidden = featuredPosts.every(post => post.hidden);
       }
-      showFeatured(featuredSlides[0]);
-      featuredDots.forEach(dot => dot.addEventListener('click', () => showFeatured(featuredSlides[Number(dot.dataset.featuredDot)])));
-      featuredSlides.forEach((slide, index) => slide.querySelector('[data-featured-complete]').addEventListener('click', () => {
-        slide.dataset.completed = 'true';
-        try { localStorage.setItem(`asimov-hub-featured-${slide.dataset.featuredId}-complete`, 'true'); } catch (_) {}
-        showFeatured(featuredSlides[(index + 1) % featuredSlides.length]);
+      updateFeatured();
+      featuredPosts.forEach(post => post.querySelector('[data-featured-complete]').addEventListener('click', () => {
+        post.dataset.completed = 'true';
+        try { localStorage.setItem(`asimov-hub-featured-${post.dataset.featuredId}-complete`, 'true'); } catch (_) {}
+        updateFeatured();
         showFeedback('Post fixado concluído.');
       }));
 
