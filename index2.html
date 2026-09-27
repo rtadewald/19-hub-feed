@@ -151,9 +151,9 @@
       .filters__divider { display: none; }
       .track-filter { flex-basis: 100%; padding-bottom: 0; }
 
-      .posts { display: grid; align-content: start; gap: 14px; }
+      .posts { display: grid; align-content: start; gap: 0; }
       .posts__empty { padding: 24px 0; color: #aeb7ba; font-size: 13px; }
-      .featured { display: grid; gap: 14px; }
+      .featured { display: grid; gap: 0; }
       .featured[hidden] { display: none; }
       .post { min-width: 0; padding: 19px; border-radius: 20px; }
       .post--featured { position: relative; border-color: rgb(45 212 191 / .72); background: rgb(255 255 255 / .055); }
@@ -199,6 +199,20 @@
       .post__comment-form input { min-width: 0; flex: 1; min-height: 36px; padding: 0 11px; border: 1px solid rgb(255 255 255 / .13); border-radius: 9px; outline: none; color: #fff; background: rgb(0 0 0 / .17); font: inherit; font-size: 12px; }
       .post__comment-form input:focus { border-color: rgb(45 212 191 / .55); }
       .post__comment-form button { padding: 0 12px; border: 1px solid rgb(45 212 191 / .3); border-radius: 9px; color: var(--ui-accent-light); background: rgb(20 184 166 / .09); font-size: 12px; }
+
+      .post { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+      .post.is-expanded { padding: 20px 8px 24px; }
+      .post:not(.is-expanded) { padding: 0; }
+      .post:not(.is-expanded) > :not(.post__summary) { display: none !important; }
+      .post__summary { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 68px; padding: 12px 8px; border: 0; color: var(--ink); background: transparent; text-align: left; }
+      .post__summary:hover { background: rgb(255 255 255 / .025); }
+      .post__summary-pin { display: grid; place-items: center; width: 18px; flex: none; color: var(--ui-accent-light); }
+      .post__summary-pin .icon { width: 15px; height: 15px; fill: currentColor; stroke: none; }
+      .post:not(.post--featured) .post__summary { padding-left: 38px; }
+      .post__summary-copy { display: grid; gap: 4px; min-width: 0; }
+      .post__summary-title { overflow: hidden; color: #f1f4f4; font-size: 15px; font-weight: 500; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
+      .post__summary-meta { color: #8f999c; font-size: 11px; line-height: 1.3; }
+      .post__summary-chevron { width: 15px; height: 15px; flex: none; margin-left: auto; color: #a6b0b3; }
 
       .right { display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: calc(100vh - 58px); margin: -28px 0 -90px; padding: 36px 0 90px 30px; border-left: 1px solid rgb(255 255 255 / .12); }
       .right__heading { margin-bottom: 0; }
@@ -422,7 +436,7 @@
                 </article>
               </section>
 
-              <article class="post glass-card is-expanded" data-kind="update" data-expanded="true">
+              <article class="post glass-card" data-kind="update" data-expanded="false">
                 <div class="post__header">
                   <div class="author">
                     <img class="author__avatar" src="assets/reference/instructor-rodrigo.webp" alt="" />
@@ -432,13 +446,13 @@
                 </div>
                 <h3>Como estruturar um portfólio que gera oportunidades</h3>
                 <p class="post__text">No vídeo de hoje eu compartilho o processo que uso para transformar projetos em um portfólio estratégico, com exemplos reais e ajustes que você pode aplicar hoje.</p>
-                <div class="post__details" id="post-details-portfolio">
+                <div class="post__details" id="post-details-portfolio" hidden>
                   <div class="post__media post__media--project"><img src="assets/reference/platform-2.png" alt="Demonstração do projeto Auto Retoucher com Rodrigo" /></div>
                 </div>
                 <div class="post__actions">
                   <button class="post__action post__like" type="button" data-count="96" aria-label="Curtir publicação de Rodrigo Tadewald" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>96</span></button>
                   <button class="post__action post__comments-toggle" type="button" data-count="17" aria-label="Mostrar comentários da publicação de Rodrigo Tadewald" aria-controls="post-comments-portfolio" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>17</span></button>
-                  <button class="post__action post__expand" type="button" aria-controls="post-details-portfolio" aria-expanded="true"><span class="post__expand-label">Recolher</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                  <button class="post__action post__expand" type="button" aria-controls="post-details-portfolio" aria-expanded="false"><span class="post__expand-label">Ver post</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
                 </div>
                 <div class="post__comments" id="post-comments-portfolio" hidden>
                   <p class="post__comments-title">Comentários</p>
@@ -670,10 +684,41 @@
         const commentsButton = post.querySelector('.post__comments-toggle');
         const comments = post.querySelector('.post__comments');
         const likeButton = post.querySelector('.post__like');
+        const summary = document.createElement('button');
+        const summaryCopy = document.createElement('span');
+        const summaryTitle = document.createElement('span');
+        const summaryMeta = document.createElement('span');
+        const authorName = post.querySelector('.author__name').textContent.trim();
+        const date = post.querySelector('.author__meta').textContent.split(' · ')[0].trim();
+        const pinned = post.matches('.post--featured');
+
+        post.id = details.id.replace('post-details-', 'post-');
+        summary.className = 'post__summary';
+        summary.type = 'button';
+        summary.setAttribute('aria-controls', post.id);
+        summaryCopy.className = 'post__summary-copy';
+        summaryTitle.className = 'post__summary-title';
+        summaryTitle.textContent = post.querySelector('h3').textContent.trim();
+        summaryMeta.className = 'post__summary-meta';
+        summaryMeta.textContent = `${pinned ? 'Fixado · ' : ''}${authorName} · ${date}`;
+        summaryCopy.append(summaryTitle, summaryMeta);
+        if (pinned) {
+          const pin = document.createElement('span');
+          pin.className = 'post__summary-pin';
+          pin.setAttribute('aria-hidden', 'true');
+          pin.append(post.querySelector('.featured__badge .icon').cloneNode(true));
+          summary.append(pin);
+        }
+        const chevron = expandButton.querySelector('.icon').cloneNode(true);
+        chevron.classList.add('post__summary-chevron');
+        summary.append(summaryCopy, chevron);
+        post.prepend(summary);
 
         function setExpanded(expanded) {
           post.classList.toggle('is-expanded', expanded);
           post.dataset.expanded = String(expanded);
+          summary.hidden = expanded;
+          summary.setAttribute('aria-expanded', String(expanded));
           details.hidden = !expanded;
           expandButton.setAttribute('aria-expanded', String(expanded));
           expandButton.querySelector('.post__expand-label').textContent = expanded ? 'Recolher' : 'Ver post';
@@ -685,6 +730,7 @@
         }
 
         setExpanded(post.dataset.expanded === 'true');
+        summary.addEventListener('click', () => setExpanded(true));
         expandButton.addEventListener('click', () => setExpanded(post.dataset.expanded !== 'true'));
 
         likeButton.addEventListener('click', () => {
