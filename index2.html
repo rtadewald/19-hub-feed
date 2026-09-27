@@ -225,12 +225,7 @@
       .progress { position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; height: 4px; overflow: hidden; background: rgb(255 255 255 / .16); }
       .progress span { display: block; height: 100%; background: var(--ui-accent-light); }
       .resume__play:hover { filter: brightness(1.1); }
-      .resume__continue { display: inline-flex; align-items: center; gap: 12px; min-height: 54px; margin-top: 24px; padding: 5px 12px 5px 5px; border: 1px solid rgb(45 212 191 / .36); border-radius: 999px; color: #f3f7f7; background: rgb(8 13 15 / .88); box-shadow: 0 0 25px rgb(45 212 191 / .18); font-size: 14px; font-weight: 500; white-space: nowrap; }
-      .resume__continue:hover { border-color: rgb(45 212 191 / .7); box-shadow: 0 0 32px rgb(45 212 191 / .3); }
-      .resume__continue-play { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 50%; background: var(--ui-accent); }
-      .resume__continue-play .icon { width: 15px; height: 15px; margin-left: 2px; fill: currentColor; stroke: none; }
-      .resume__continue-arrow { display: grid; place-items: center; width: 26px; height: 26px; flex: none; margin-left: 8px; border-radius: 50%; color: #c9d0d0; background: rgb(255 255 255 / .1); }
-      .resume__continue-arrow .icon { width: 14px; height: 14px; }
+      .resume__continue { width: min(100%, 220px); margin-top: 24px; white-space: nowrap; }
       .resume-carousel__controls { position: relative; display: flex; align-items: center; justify-content: center; min-height: 29px; margin-top: 10px; }
       .resume-carousel__dots, .resume-carousel__arrows { display: flex; align-items: center; gap: 7px; }
       .resume-carousel__arrows { position: absolute; top: 0; right: 0; }
@@ -257,6 +252,7 @@
       .shortcut__glow-inner { position: absolute; inset: 1px; border-radius: 11px; background: rgb(10 10 10 / .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); pointer-events: none; }
       .shortcut--glow > .icon, .shortcut__label { position: relative; z-index: 1; }
       .shortcut--glow > .icon { width: 28px; height: 28px; flex: none; padding: 6px; border-radius: 50%; color: #fff; background: linear-gradient(to bottom, var(--ui-accent-light), var(--ui-accent-dark)); box-shadow: 0 5px 14px rgb(45 212 191 / .3), 0 0 0 1px rgb(255 255 255 / .2); }
+      .resume__continue > .icon { fill: currentColor; stroke: none; }
       .shortcut__label { font-size: 12px; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; }
       .shortcut--skill { border-color: rgb(45 212 191 / .25); color: #e6fbf7; background: rgb(20 184 166 / .11); font-weight: 500; }
       .shortcut--skill:hover { border-color: rgb(45 212 191 / .5); color: #fff; background: rgb(20 184 166 / .2); }
@@ -525,7 +521,7 @@
                   <button class="resume__play" type="button" data-demo="resume" data-course="Conheça a Asimov" aria-label="Continuar Conheça a Asimov"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
                   <div class="progress" role="progressbar" aria-label="Progresso de Conheça a Asimov" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"><span style="width: 28%"></span></div>
                 </div>
-                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-1">Conheça a Asimov</h2><p class="resume__meta">Aula em andamento</p><button class="resume__continue" type="button" data-demo="resume" data-course="Conheça a Asimov"><span class="resume__continue-play"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></span>Continuar aula<span class="resume__continue-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button></div>
+                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-1">Conheça a Asimov</h2><p class="resume__meta">Aula em andamento</p><button class="shortcut shortcut--glow resume__continue" type="button" data-demo="resume" data-course="Conheça a Asimov"><span class="shortcut__glow-border" aria-hidden="true"><span class="shortcut__glow-spin"></span></span><span class="shortcut__glow-inner" aria-hidden="true"></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg><span class="shortcut__label">Continuar aula</span></button></div>
               </article>
               <article class="resume" data-resume-slide aria-labelledby="resume-title-2" hidden>
                 <div class="resume__cover">
@@ -534,7 +530,7 @@
                   <button class="resume__play" type="button" data-demo="resume" data-course="RAG na prática" aria-label="Continuar RAG na prática"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
                   <div class="progress" role="progressbar" aria-label="Progresso de RAG na prática" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><span style="width: 62%"></span></div>
                 </div>
-                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-2">RAG na prática</h2><p class="resume__meta">Aula em andamento</p><button class="resume__continue" type="button" data-demo="resume" data-course="RAG na prática"><span class="resume__continue-play"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></span>Continuar aula<span class="resume__continue-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button></div>
+                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-2">RAG na prática</h2><p class="resume__meta">Aula em andamento</p><button class="shortcut shortcut--glow resume__continue" type="button" data-demo="resume" data-course="RAG na prática"><span class="shortcut__glow-border" aria-hidden="true"><span class="shortcut__glow-spin"></span></span><span class="shortcut__glow-inner" aria-hidden="true"></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg><span class="shortcut__label">Continuar aula</span></button></div>
               </article>
               <article class="resume" data-resume-slide aria-labelledby="resume-title-3" hidden>
                 <div class="resume__cover">
@@ -543,7 +539,7 @@
                   <button class="resume__play" type="button" data-demo="resume" data-course="Aplicações com IA" aria-label="Continuar Aplicações com IA"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
                   <div class="progress" role="progressbar" aria-label="Progresso de Aplicações com IA" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100"><span style="width: 38%"></span></div>
                 </div>
-                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-3">Aplicações com IA</h2><p class="resume__meta">Aula em andamento</p><button class="resume__continue" type="button" data-demo="resume" data-course="Aplicações com IA"><span class="resume__continue-play"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></span>Continuar aula<span class="resume__continue-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button></div>
+                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-3">Aplicações com IA</h2><p class="resume__meta">Aula em andamento</p><button class="shortcut shortcut--glow resume__continue" type="button" data-demo="resume" data-course="Aplicações com IA"><span class="shortcut__glow-border" aria-hidden="true"><span class="shortcut__glow-spin"></span></span><span class="shortcut__glow-inner" aria-hidden="true"></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg><span class="shortcut__label">Continuar aula</span></button></div>
               </article>
               <article class="resume" data-resume-slide aria-labelledby="resume-title-4" hidden>
                 <div class="resume__cover">
@@ -552,7 +548,7 @@
                   <button class="resume__play" type="button" data-demo="resume" data-course="Agentes de IA" aria-label="Continuar Agentes de IA"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
                   <div class="progress" role="progressbar" aria-label="Progresso de Agentes de IA" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"><span style="width: 74%"></span></div>
                 </div>
-                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-4">Agentes de IA</h2><p class="resume__meta">Aula em andamento</p><button class="resume__continue" type="button" data-demo="resume" data-course="Agentes de IA"><span class="resume__continue-play"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></span>Continuar aula<span class="resume__continue-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></button></div>
+                <div class="resume__content"><span class="resume__eyebrow">Continue de onde parou</span><h2 id="resume-title-4">Agentes de IA</h2><p class="resume__meta">Aula em andamento</p><button class="shortcut shortcut--glow resume__continue" type="button" data-demo="resume" data-course="Agentes de IA"><span class="shortcut__glow-border" aria-hidden="true"><span class="shortcut__glow-spin"></span></span><span class="shortcut__glow-inner" aria-hidden="true"></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg><span class="shortcut__label">Continuar aula</span></button></div>
               </article>
               <div class="resume-carousel__controls">
                 <div class="resume-carousel__dots" role="group" aria-label="Selecionar curso">
