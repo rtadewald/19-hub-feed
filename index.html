@@ -142,7 +142,8 @@
       .filter .icon { width: 14px; height: 14px; }
 
       .posts { display: grid; align-content: start; gap: 14px; }
-      .featured { display: grid; gap: 14px; }
+      .featured { display: grid; gap: 14px; margin-bottom: 14px; }
+      .featured[hidden] { display: none; }
       .post { min-width: 0; padding: 19px; border-radius: 20px; }
       .post--featured { position: relative; border-color: rgb(45 212 191 / .72); background: rgb(255 255 255 / .055); }
       .post--featured .post__header { padding-right: 74px; }
@@ -250,6 +251,7 @@
         .columns { height: 100%; }
         .feed { display: flex; flex-direction: column; height: 100%; min-height: 0; padding-top: 46px; }
         .section-head { flex-shrink: 0; }
+        .featured { flex-shrink: 0; }
         .posts { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 64px; scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / .18) transparent; }
         .right { height: 100%; min-height: 0; margin: 0; padding-top: 36px; padding-bottom: 50px; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / .18) transparent; }
         .posts::-webkit-scrollbar, .right::-webkit-scrollbar { width: 5px; }
@@ -366,8 +368,7 @@
               </div>
             </div>
 
-            <div class="posts" aria-live="polite">
-              <section class="featured" aria-label="Posts fixados">
+            <section class="featured" aria-label="Posts fixados">
                 <article class="post post--featured glass-card" data-featured-post data-featured-id="live-agents" data-expanded="false">
                   <span class="featured__badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 6 3 3v2H6v-2l3-3-1-6Zm4 11v7"/></svg>Fixado</span>
                   <div class="post__header">
@@ -384,8 +385,9 @@
                   </div>
                   <div class="post__comments" id="post-comments-featured-live" hidden><p class="post__comments-title">Comentários</p><div class="post__comment"><strong>Marina</strong><span>Já deixei minhas perguntas separadas!</span></div><form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar no post fixado de Juliano" required /><button type="submit">Enviar</button></form></div>
                 </article>
-              </section>
+            </section>
 
+            <div class="posts" aria-live="polite">
               <article class="post glass-card is-expanded" data-kind="update" data-expanded="true">
                 <div class="post__header">
                   <div class="author">
