@@ -722,15 +722,22 @@
         catch (_) { post.dataset.completed = 'false'; }
       });
       function updateFeatured() {
-        featuredPosts.forEach(post => { post.hidden = post.dataset.completed === 'true' || (trackOnly.checked && post.dataset.currentTrack !== 'true'); });
+        featuredPosts.forEach(post => {
+          post.hidden = trackOnly.checked && post.dataset.currentTrack !== 'true';
+          const completeButton = post.querySelector('[data-featured-complete]');
+          const completed = post.dataset.completed === 'true';
+          completeButton.textContent = completed ? 'Visto · desfazer' : 'Marcar como visto';
+          completeButton.setAttribute('aria-pressed', String(completed));
+        });
         featured.hidden = featuredPosts.every(post => post.hidden);
       }
       updateFeatured();
       featuredPosts.forEach(post => post.querySelector('[data-featured-complete]').addEventListener('click', () => {
-        post.dataset.completed = 'true';
-        try { localStorage.setItem(`asimov-hub-featured-${post.dataset.featuredId}-complete`, 'true'); } catch (_) {}
+        const completed = post.dataset.completed !== 'true';
+        post.dataset.completed = String(completed);
+        try { localStorage.setItem(`asimov-hub-featured-${post.dataset.featuredId}-complete`, String(completed)); } catch (_) {}
         updateFeatured();
-        showFeedback('Post marcado como visto.');
+        showFeedback(completed ? 'Post marcado como visto.' : 'Marcação de visto desfeita.');
       }));
 
       const resumeSlides = [...document.querySelectorAll('[data-resume-slide]')];
