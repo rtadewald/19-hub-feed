@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content="Nova proposta para a área principal da Asimov Academy." />
+    <title>Início · Asimov Academy</title>
+    <link rel="icon" type="image/png" href="asimov-design-system/assets/overview/favicon.png" />
+    <link rel="stylesheet" href="asimov-design-system/assets/components/backgrounds/css/aurora.css" />
+    <style>
+      @font-face {
+        font-family: Inter;
+        src: url("asimov-design-system/assets/overview/_astro/inter-latin-400-normal.C38fXH4l.woff2") format("woff2");
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: Inter;
+        src: url("asimov-design-system/assets/overview/_astro/inter-latin-500-normal.Cerq10X2.woff2") format("woff2");
+        font-weight: 500;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: Inter;
+        src: url("asimov-design-system/assets/overview/_astro/inter-latin-600-normal.LgqL8muc.woff2") format("woff2");
+        font-weight: 600;
+        font-display: swap;
+      }
+
+      :root {
+        color-scheme: dark;
+        --ui-accent: #14b8a6;
+        --ui-accent-dark: #0d9488;
+        --ui-accent-light: #5eead4;
+        --ui-accent-glow: #2dd4bf;
+        --ink: #f4f5f6;
+        --muted: #a2a9ad;
+        --quiet: #788085;
+        --line: rgb(255 255 255 / 0.09);
+        font-family: Inter, system-ui, sans-serif;
+        background: #050505;
+      }
+
+      * { box-sizing: border-box; }
+      html { min-width: 320px; background: #050505; }
+      body { margin: 0; color: var(--ink); background: #050505; -webkit-font-smoothing: antialiased; }
+      button, a { font: inherit; }
+      button { cursor: pointer; }
+      a { color: inherit; text-decoration: none; }
+      button:focus-visible, a:focus-visible { outline: 2px solid var(--ui-accent-light); outline-offset: 3px; }
+      [hidden] { display: none !important; }
+
+      .app { position: relative; z-index: 1; min-height: 100vh; }
+      /* Mesmo tratamento de superfície do .glass-card do design system Asimov. */
+      .glass-card { border: 1px solid rgb(255 255 255 / .1); background: rgb(255 255 255 / .05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+      .icon {
+        width: 18px;
+        height: 18px;
+        flex: none;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+      }
+      .icon--small { width: 15px; height: 15px; }
+
+      .topbar {
+        position: relative;
+        z-index: 10;
+        height: 58px;
+        background: linear-gradient(180deg, rgb(8 11 17 / .68), rgb(8 11 17 / .36));
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .topbar__inner {
+        width: calc(100% - 48px);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        margin: auto;
+      }
+      .brand { display: inline-flex; align-items: center; flex: none; }
+      .brand img { display: block; width: 86px; height: auto; }
+      .nav { display: flex; align-self: stretch; align-items: center; gap: 26px; }
+      .nav__group { position: relative; display: flex; align-self: stretch; }
+      .nav > a, .nav__trigger { display: flex; align-items: center; gap: 9px; align-self: stretch; position: relative; padding: 0; border: 0; color: #abb0b8; background: transparent; font-size: 14px; font-weight: 400; white-space: nowrap; transition: color .2s ease; }
+      .nav > a:hover, .nav > a[aria-current="page"], .nav__trigger:hover, .nav__trigger[aria-expanded="true"] { color: #e7e8eb; }
+      .nav > a[aria-current="page"] { font-weight: 500; }
+      .nav > a[aria-current="page"]::after { position: absolute; bottom: 4px; right: 0; left: 0; height: 2px; border-radius: 2px; background: var(--ui-accent); content: ""; }
+      .nav__chevron { width: 6px; height: 6px; margin-top: -3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); }
+      .nav__trigger[aria-expanded="true"] .nav__chevron { margin-top: 3px; transform: rotate(225deg); }
+      .nav__divider { width: 1px; height: 18px; margin: 0 -3px; background: rgb(255 255 255 / .11); }
+      .nav__dropdown { position: absolute; top: calc(100% - 1px); left: -15px; width: 320px; padding: 6px; border: 1px solid rgb(147 163 177 / .25); border-radius: 15px; background: rgb(19 23 29 / .94); box-shadow: 0 20px 45px rgb(0 0 0 / .36), inset 0 1px rgb(255 255 255 / .05); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+      .nav__dropdown--tracks { width: 320px; }
+      .nav__option { display: flex; align-items: center; gap: 9px; min-height: 29px; padding: 0 7px; border-radius: 8px; color: #b2b8c2; font-size: 12px; white-space: nowrap; }
+      .nav__option:hover, .nav__option:focus-visible { color: #f1f4f5; background: rgb(255 255 255 / .055); }
+      .nav__dot { width: 7px; height: 7px; flex: none; border-radius: 50%; background: #717a89; }
+      .nav__dot--progress { background: var(--ui-accent-light); }
+      .nav__dot--new { background: #f2c45a; }
+      .nav__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+      .nav__status { flex: none; margin-left: auto; color: #858e9c; font-size: 10px; letter-spacing: .035em; }
+      .nav__status--progress { color: var(--ui-accent-light); font-size: 12px; }
+      .nav__status--new { color: #f2c45a; }
+      .nav__explore { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 36px; margin-top: 9px; padding: 0 11px; border: 1px solid rgb(45 212 191 / .28); border-radius: 9px; color: var(--ui-accent-light); background: rgb(20 184 166 / .1); font-size: 12px; font-weight: 600; text-align: left; transition: border-color .2s ease, background .2s ease; }
+      .nav__explore:hover { border-color: rgb(45 212 191 / .5); background: rgb(20 184 166 / .18); }
+      .topbar__end { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+      .topbar__icon, .profile {
+        display: grid;
+        place-items: center;
+        height: 36px;
+        padding: 0;
+        border: 1px solid rgb(255 255 255 / .09);
+        color: #aeb5bb;
+        background: rgb(255 255 255 / .025);
+      }
+      .topbar__icon { position: relative; width: 36px; border-radius: 50%; }
+      .topbar__icon .icon { width: 17px; height: 17px; }
+      .topbar__icon--notification::after { position: absolute; top: 7px; right: 8px; width: 4px; height: 4px; border-radius: 50%; background: #eb5757; content: ""; }
+      .profile { display: flex; justify-content: space-between; gap: 7px; width: 74px; padding: 2px 9px 2px 2px; border-radius: 999px; }
+      .profile img { display: block; width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+      .profile .icon { width: 13px; height: 13px; }
+
+      .main { width: min(100% - 64px, 1320px); margin: auto; padding: 28px 0 90px; }
+      h1, h2, h3, p { margin: 0; }
+      .columns { display: grid; grid-template-columns: minmax(0, 1fr) 410px; align-items: start; gap: 0; }
+
+      .feed { min-width: 0; padding: 18px 30px 0 0; }
+      .section-head { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 17px; }
+      .filters { display: flex; align-items: center; gap: 26px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+      .filters::-webkit-scrollbar { display: none; }
+      .filter { position: relative; display: inline-flex; align-items: center; gap: 7px; flex: none; min-height: 36px; padding: 0 0 8px; border: 0; color: #aeb7ba; background: none; font-size: 12px; font-weight: 500; white-space: nowrap; transition: color .18s ease; }
+      .filter::after { position: absolute; right: 0; bottom: 0; left: 0; height: 2px; border-radius: 2px; background: var(--ui-accent); content: ""; opacity: 0; transform: scaleX(.45); transition: opacity .18s ease, transform .18s ease; }
+      .filter:hover { color: #fff; }
+      .filter[aria-pressed="true"] { color: #f4f5f6; }
+      .filter[aria-pressed="true"]::after { opacity: 1; transform: scaleX(1); }
+      .filter[aria-pressed="true"] .icon { color: var(--ui-accent-light); }
+      .filter .icon { width: 14px; height: 14px; }
+
+      .posts { display: grid; align-content: start; gap: 16px; }
+      .featured__pagination { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 1px 0 10px; }
+      .featured__dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: rgb(255 255 255 / .3); transition: width .2s ease, background .2s ease; }
+      .featured__dot[aria-pressed="true"] { width: 22px; border-radius: 999px; background: var(--ui-accent); }
+      .post { min-width: 0; padding: 23px; border-radius: 20px; }
+      .post--featured { position: relative; border-color: rgb(45 212 191 / .72); background: rgb(255 255 255 / .055); }
+      .post--featured .post__header { padding-right: 74px; }
+      .featured__badge { position: absolute; top: -1px; right: -1px; display: inline-flex; align-items: center; gap: 6px; min-height: 29px; padding: 0 12px; border-radius: 0 19px 0 11px; color: #05231f; background: var(--ui-accent); font-size: 11px; font-weight: 600; }
+      .featured__badge .icon { width: 13px; height: 13px; fill: currentColor; stroke: none; }
+      .featured__complete { padding: 0 12px; border-color: rgb(45 212 191 / .3); color: var(--ui-accent-light); background: rgb(20 184 166 / .09); }
+      .featured__complete:hover { background: rgb(20 184 166 / .16); }
+      .post__header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+      .author { display: flex; align-items: center; gap: 11px; min-width: 0; }
+      .author__avatar { display: block; width: 34px; height: 34px; flex: none; border: 1px solid rgb(255 255 255 / .12); border-radius: 50%; object-fit: cover; object-position: center 22%; background: #0b1618; }
+      .author__avatar--brand { display: grid; place-items: center; border-color: rgb(45 212 191 / .2); color: var(--ui-accent-light); background: rgb(20 184 166 / .1); font-size: 16px; font-weight: 500; }
+      .author__name { display: flex; align-items: center; gap: 6px; color: #f0f2f2; font-size: 15px; font-weight: 600; white-space: nowrap; }
+      .author__verified { display: inline-grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; color: #06211d; background: var(--ui-accent); }
+      .author__verified .icon { width: 11px; height: 11px; stroke-width: 2.5; }
+      .author__meta { display: block; margin-top: 3px; color: #929da0; font-size: 12px; }
+      .tag { display: inline-flex; align-items: center; gap: 6px; flex: none; margin-left: auto; padding: 6px 10px; border: 1px solid rgb(255 255 255 / .16); border-radius: 999px; color: #c4cbcd; background: rgb(255 255 255 / .025); font-size: 11px; white-space: nowrap; }
+      .tag .icon { width: 13px; height: 13px; color: var(--ui-accent-light); }
+      .post h3 { margin-bottom: 12px; font-size: 21px; font-weight: 500; line-height: 1.28; letter-spacing: -.025em; }
+      .post__text, .post__detail-copy { color: #adb6b8; font-size: 14px; line-height: 1.58; }
+      .post:not(.is-expanded) .post__text { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+      .post__detail-copy { margin-top: 14px; }
+      .post__media { position: relative; width: 100%; margin-top: 18px; overflow: hidden; border: 1px solid rgb(255 255 255 / .09); border-radius: 14px; background: #0d1316; aspect-ratio: 16 / 9; }
+      .post__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .post__media--project img { object-position: center; }
+      .post__media--course img { object-position: center top; }
+      .post__actions { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+      .post__action { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 32px; padding: 0 8px; border: 1px solid transparent; border-radius: 999px; color: #aab4b6; background: transparent; font-size: 12px; }
+      .post__action:hover, .post__action:focus-visible { color: #fff; }
+      .post__action .icon { width: 17px; height: 17px; }
+      .post__like { min-width: 68px; border-color: rgb(255 255 255 / .11); background: rgb(255 255 255 / .025); }
+      .post__like[aria-pressed="true"] { border-color: rgb(45 212 191 / .3); color: var(--ui-accent-light); background: rgb(20 184 166 / .09); }
+      .post__like[aria-pressed="true"] .icon { fill: rgb(45 212 191 / .23); }
+      .post__expand { margin-left: auto; color: var(--ui-accent-light); }
+      .post__expand .icon { width: 14px; height: 14px; transition: transform .2s ease; }
+      .post__expand[aria-expanded="true"] .icon { transform: rotate(180deg); }
+      .post__comments { margin-top: 14px; padding-top: 15px; border-top: 1px solid var(--line); }
+      .post__comments-title { margin-bottom: 13px; color: #d8dfdf; font-size: 12px; font-weight: 600; }
+      .post__comment { display: flex; align-items: baseline; gap: 7px; margin-bottom: 12px; color: #aeb8ba; font-size: 12px; line-height: 1.5; }
+      .post__comment strong { flex: none; color: #ecf0f0; font-weight: 600; }
+      .post__comment-form { display: flex; gap: 8px; margin-top: 12px; }
+      .post__comment-form input { min-width: 0; flex: 1; min-height: 36px; padding: 0 11px; border: 1px solid rgb(255 255 255 / .13); border-radius: 9px; outline: none; color: #fff; background: rgb(0 0 0 / .17); font: inherit; font-size: 12px; }
+      .post__comment-form input:focus { border-color: rgb(45 212 191 / .55); }
+      .post__comment-form button { padding: 0 12px; border: 1px solid rgb(45 212 191 / .3); border-radius: 9px; color: var(--ui-accent-light); background: rgb(20 184 166 / .09); font-size: 12px; }
+
+      .right { display: flex; flex-direction: column; gap: 20px; min-width: 0; min-height: calc(100vh - 58px); margin: -28px 0 -90px; padding: 36px 0 90px 30px; border-left: 1px solid rgb(255 255 255 / .12); }
+      .right__heading { margin-bottom: 2px; }
+      .right__heading h1 { color: #f4f5f6; font-size: 24px; font-weight: 500; letter-spacing: -.04em; line-height: 1.18; }
+      .resume-carousel { min-width: 0; }
+      .resume { overflow: hidden; border: 1px solid rgb(255 255 255 / .1); border-radius: 22px; }
+      .resume__cover { position: relative; height: 204px; overflow: hidden; background: #0c1719; }
+      .resume__cover img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left 36%; }
+      .resume__cover::after { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 32%, rgb(5 9 11 / .3) 55%, rgb(5 9 11 / .94) 100%); content: ""; pointer-events: none; }
+      .resume__info { position: absolute; z-index: 1; right: 78px; bottom: 31px; left: 18px; }
+      .resume__remaining { display: block; margin-bottom: 5px; color: #c0cacc; font-size: 11px; }
+      .resume h2 { font-size: 22px; font-weight: 500; letter-spacing: -.035em; }
+      .resume__play { position: absolute; z-index: 1; right: 18px; bottom: 31px; display: grid; place-items: center; width: 46px; height: 46px; border: 0; border-radius: 50%; color: #fff; background: var(--ui-accent); box-shadow: 0 8px 25px rgb(20 184 166 / .28); }
+      .resume__play .icon { width: 18px; height: 18px; margin-left: 2px; fill: currentColor; stroke: none; }
+      .progress { position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; height: 4px; overflow: hidden; background: rgb(255 255 255 / .16); }
+      .progress span { display: block; height: 100%; background: var(--ui-accent-light); }
+      .resume__play:hover { filter: brightness(1.1); }
+      .resume-carousel__controls { position: relative; display: flex; align-items: center; justify-content: center; min-height: 29px; margin-top: 10px; }
+      .resume-carousel__dots, .resume-carousel__arrows { display: flex; align-items: center; gap: 7px; }
+      .resume-carousel__arrows { position: absolute; top: 0; right: 0; }
+      .resume-carousel__dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: rgb(255 255 255 / .28); }
+      .resume-carousel__dot[aria-pressed="true"] { width: 20px; border-radius: 999px; background: var(--ui-accent-light); }
+      .resume-carousel__arrow { display: grid; place-items: center; width: 29px; height: 29px; padding: 0; border: 1px solid rgb(255 255 255 / .11); border-radius: 50%; color: #b7c0c2; background: rgb(255 255 255 / .035); }
+      .resume-carousel__arrow:hover { border-color: rgb(45 212 191 / .3); color: var(--ui-accent-light); }
+      .resume-carousel__arrow .icon { width: 14px; height: 14px; }
+
+      .shortcuts { margin-top: 2px; }
+      .shortcuts h2 { margin-bottom: 12px; color: #a2acb1; font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+      .shortcuts__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .shortcut { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; min-height: 56px; padding: 8px 6px; border: 1px solid rgb(255 255 255 / .1); border-radius: 14px; color: #c3cbcd; background: rgb(255 255 255 / .05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-size: 11px; transition: border-color .2s ease, background .2s ease, color .2s ease; }
+      .shortcut:hover { border-color: rgb(45 212 191 / .3); color: #fff; background: rgb(20 184 166 / .09); }
+      .shortcut .icon { width: 17px; height: 17px; color: var(--ui-accent-light); }
+
+      .ranking { margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--line); }
+      .ranking__heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+      .ranking__heading h2 { color: #a2acb1; font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+      .ranking__heading a { color: var(--ui-accent-light); font-size: 11px; white-space: nowrap; }
+      .ranking__heading a:hover { color: #b5fff0; }
+      .ranking__list { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; }
+      .ranking__row { display: grid; grid-template-columns: 37px 28px minmax(0, 1fr) auto; align-items: center; gap: 9px; min-height: 40px; padding: 0 10px; color: #8a9298; font-size: 12px; }
+      .ranking__row:not(.ranking__row--me) { opacity: .62; }
+      .ranking__position { font-variant-numeric: tabular-nums; }
+      .ranking__avatar { display: grid; place-items: center; width: 28px; height: 28px; overflow: hidden; border: 1px solid rgb(255 255 255 / .09); border-radius: 50%; background: rgb(255 255 255 / .06); font-size: 10px; }
+      .ranking__avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .ranking__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .ranking__score { font-variant-numeric: tabular-nums; text-align: right; }
+      .ranking__row--me { grid-template-columns: 37px 38px minmax(0, 1fr) auto; gap: 10px; min-height: 74px; margin: 5px 0; padding: 10px; border: 1px solid rgb(255 255 255 / .13); border-radius: 16px; color: #f4f5f6; background: rgb(255 255 255 / .055); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+      .ranking__row--me .ranking__position { font-size: 14px; font-weight: 600; }
+      .ranking__row--me .ranking__avatar { width: 38px; height: 38px; border-color: rgb(255 255 255 / .26); }
+      .ranking__row--me .ranking__name { font-size: 15px; font-weight: 500; }
+      .ranking__gain { display: block; margin-top: 2px; color: var(--ui-accent-light); font-size: 11px; font-weight: 400; }
+      .ranking__row--me .ranking__score { font-size: 22px; line-height: 1; }
+      .ranking__score small { display: block; margin-top: 4px; color: #a2aab1; font-size: 10px; letter-spacing: .08em; }
+
+      .feedback { position: fixed; right: 20px; bottom: 20px; z-index: 5; max-width: min(330px, calc(100vw - 40px)); padding: 12px 16px; border: 1px solid rgb(45 212 191 / .28); border-radius: 12px; color: #eaf9f6; background: #101a1c; box-shadow: 0 18px 38px rgb(0 0 0 / .3); font-size: 12px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s, transform .2s; }
+      .feedback.is-visible { opacity: 1; transform: translateY(0); }
+
+      @media (min-width: 821px) {
+        .app { height: 100dvh; min-height: 0; overflow: hidden; }
+        .main { height: calc(100dvh - 58px); padding: 0; }
+        .columns { height: 100%; }
+        .feed { display: flex; flex-direction: column; height: 100%; min-height: 0; padding-top: 46px; }
+        .section-head { flex-shrink: 0; }
+        .posts { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 64px; scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / .18) transparent; }
+        .right { height: 100%; min-height: 0; margin: 0; padding-top: 36px; padding-bottom: 50px; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / .18) transparent; }
+        .posts::-webkit-scrollbar, .right::-webkit-scrollbar { width: 5px; }
+        .posts::-webkit-scrollbar-thumb, .right::-webkit-scrollbar-thumb { border-radius: 999px; background: rgb(255 255 255 / .18); }
+      }
+
+      @media (max-width: 1020px) {
+        .topbar__inner { width: calc(100% - 40px); gap: 28px; }
+        .columns { grid-template-columns: minmax(0, 1fr) 365px; }
+        .feed { padding-right: 20px; }
+        .right { padding-left: 20px; }
+        .nav { gap: 19px; }
+        .nav > a, .nav__trigger { font-size: 13px; }
+      }
+      @media (max-width: 820px) {
+        .topbar__inner { width: calc(100% - 36px); }
+        .main { width: min(100% - 36px, 700px); }
+        .nav { display: none; }
+        .main { padding-top: 22px; }
+        .columns { grid-template-columns: 1fr; }
+        .feed { padding: 0; }
+        .right { display: grid; grid-row: 1; grid-template-columns: 1fr 1fr; align-items: start; gap: 16px; min-height: 0; margin: 0 0 24px; padding: 0; border: 0; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+        .right__heading { grid-column: 1 / -1; }
+        .resume__cover { height: 150px; }
+        .resume__info { right: 65px; bottom: 16px; left: 14px; }
+        .resume__play { right: 12px; bottom: 24px; width: 40px; height: 40px; }
+      }
+      @media (max-width: 700px) {
+        .right { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 600px) {
+        .topbar { height: 56px; }
+        .brand img { width: 82px; }
+        .right { grid-template-columns: 1fr; }
+        .resume__cover { height: 188px; }
+        .filters { max-width: 100%; }
+        .post { padding: 17px; }
+        .post__header { margin-bottom: 16px; }
+        .author__avatar { width: 30px; height: 30px; }
+        .author__name { font-size: 13px; }
+        .author__meta { font-size: 11px; }
+        .post h3 { font-size: 18px; }
+        .post__text, .post__detail-copy { font-size: 13px; }
+        .tag { padding: 5px 7px; font-size: 10px; }
+        .tag .icon { display: none; }
+        .post--featured .post__header { padding-right: 62px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .feedback { transition: none; }
+      }
+    </style>
+    <script defer src="asimov-design-system/assets/components/backgrounds/js/aurora.js"></script>
+  </head>
+  <body>
+    <div class="aura-background aura-background--composite" data-aura aria-hidden="true"></div>
+    <div class="landscape-layer" aria-hidden="true">
+      <img class="landscape-layer__image" src="asimov-design-system/assets/components/backgrounds/images/landscape-1280.webp" srcset="asimov-design-system/assets/components/backgrounds/images/landscape-768.webp 768w, asimov-design-system/assets/components/backgrounds/images/landscape-1280.webp 1280w" sizes="100vw" width="1280" height="720" alt="" decoding="async" />
+    </div>
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar__inner">
+          <a class="brand" href="#inicio" aria-label="Asimov Academy, início">
+            <img src="assets/reference/logo.svg" alt="Asimov" />
+          </a>
+          <nav class="nav" aria-label="Navegação principal">
+            <a href="#inicio" aria-current="page">Meu progresso</a>
+            <div class="nav__group">
+              <button class="nav__trigger" type="button" aria-expanded="false" aria-controls="formacoes-menu">Formações<span class="nav__chevron" aria-hidden="true"></span></button>
+              <div class="nav__dropdown" id="formacoes-menu" aria-label="Suas formações" hidden>
+                <a class="nav__option" href="#inicio"><span class="nav__dot nav__dot--progress" aria-hidden="true"></span><span class="nav__name">Engenheiros de Agentes de IA</span><span class="nav__status nav__status--progress">29%</span></a>
+                <a class="nav__option" href="#inicio"><span class="nav__dot nav__dot--progress" aria-hidden="true"></span><span class="nav__name">Especialista em Hyper Automações</span><span class="nav__status nav__status--progress">12%</span></a>
+                <a class="nav__option" href="#inicio"><span class="nav__dot" aria-hidden="true"></span><span class="nav__name">Analista de Dados</span><span class="nav__status">Não iniciado</span></a>
+                <a class="nav__option" href="#inicio"><span class="nav__dot" aria-hidden="true"></span><span class="nav__name">IA Designer</span><span class="nav__status">Não iniciado</span></a>
+              </div>
+            </div>
+            <div class="nav__group">
+              <button class="nav__trigger" type="button" aria-expanded="false" aria-controls="trilhas-menu">Trilhas<span class="nav__chevron" aria-hidden="true"></span></button>
+              <div class="nav__dropdown nav__dropdown--tracks" id="trilhas-menu" aria-label="Suas trilhas" hidden>
+                <a class="nav__option" href="#inicio"><span class="nav__dot nav__dot--progress" aria-hidden="true"></span><span class="nav__name">Automações com n8n</span><span class="nav__status nav__status--progress">29%</span></a>
+                <a class="nav__option" href="#inicio"><span class="nav__dot nav__dot--progress" aria-hidden="true"></span><span class="nav__name">Dashboards Interativos</span><span class="nav__status nav__status--progress">12%</span></a>
+                <a class="nav__option" href="#inicio"><span class="nav__dot nav__dot--new" aria-hidden="true"></span><span class="nav__name">Dominando OpenClaw</span><span class="nav__status nav__status--new">Nova</span></a>
+                <a class="nav__option" href="#inicio"><span class="nav__dot nav__dot--new" aria-hidden="true"></span><span class="nav__name">Aplicações Inteligentes com IA</span><span class="nav__status nav__status--new">Nova</span></a>
+                <button class="nav__explore" type="button" data-demo="explore-tracks">Explorar mais trilhas <span aria-hidden="true">→</span></button>
+              </div>
+            </div>
+            <span class="nav__divider" aria-hidden="true"></span>
+            <a href="#inicio">Cursos</a>
+            <a href="#inicio">Projetos</a>
+          </nav>
+          <div class="topbar__end">
+            <button class="topbar__icon" type="button" aria-label="Buscar">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16.2 16.2 5 5"/></svg>
+            </button>
+            <button class="topbar__icon topbar__icon--notification" type="button" aria-label="Notificações">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+            </button>
+            <button class="profile" type="button" aria-label="Perfil">
+              <img src="assets/reference/avatar-1.webp" alt="" />
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main" id="inicio">
+        <div class="columns">
+          <section class="feed" aria-label="Feed de conteúdo">
+            <div class="section-head">
+              <div class="filters" role="group" aria-label="Filtrar por tipo de conteúdo">
+                <button class="filter" type="button" data-filter="all" aria-pressed="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Todos</button>
+                <button class="filter" type="button" data-filter="news" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Novidades</button>
+                <button class="filter" type="button" data-filter="update" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.8 9A7 7 0 0 1 18 6.5L20 12M4 12l2 5.5A7 7 0 0 0 18.2 15"/></svg>Atualizações</button>
+                <button class="filter" type="button" data-filter="announcement" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l10 5V5L8 10H4ZM8 14l1.5 5H13"/><path d="M20 9a4 4 0 0 1 0 6"/></svg>Comunicados</button>
+              </div>
+            </div>
+
+            <div class="posts" aria-live="polite">
+              <section class="featured" aria-label="Posts fixados">
+                <div class="featured__pagination" role="group" aria-label="Selecionar post fixado">
+                  <button class="featured__dot" type="button" data-featured-dot="0" aria-label="Mostrar primeiro post fixado" aria-pressed="true"></button>
+                  <button class="featured__dot" type="button" data-featured-dot="1" aria-label="Mostrar segundo post fixado" aria-pressed="false"></button>
+                </div>
+                <article class="post post--featured glass-card" data-featured-slide data-featured-id="onboarding" data-expanded="false">
+                  <span class="featured__badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 6 3 3v2H6v-2l3-3-1-6Zm4 11v7"/></svg>Fixado</span>
+                  <div class="post__header">
+                    <div class="author"><span class="author__avatar author__avatar--brand" aria-hidden="true">A</span><span><span class="author__name">Asimov Academy <span class="author__verified" aria-label="Perfil verificado"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></span><span class="author__meta">há 2 dias</span></span></div>
+                  </div>
+                  <h3>Comece pela sua formação</h3>
+                  <p class="post__text">Seu percurso já está organizado. Escolha uma trilha e continue de onde faz mais sentido para você.</p>
+                  <div class="post__details" id="post-details-featured-onboarding" hidden><p class="post__detail-copy">Abra o menu Formações para acompanhar seu progresso e encontrar o próximo curso recomendado.</p></div>
+                  <div class="post__actions">
+                    <button class="post__action post__like" type="button" data-count="18" aria-label="Curtir post fixado da Asimov" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>18</span></button>
+                    <button class="post__action post__comments-toggle" type="button" data-count="2" aria-label="Mostrar comentários do post fixado" aria-controls="post-comments-featured-onboarding" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>2</span></button>
+                    <button class="post__action post__expand" type="button" aria-controls="post-details-featured-onboarding" aria-expanded="false"><span class="post__expand-label">Ver post</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                    <button class="post__action featured__complete" type="button" data-featured-complete>Concluir</button>
+                  </div>
+                  <div class="post__comments" id="post-comments-featured-onboarding" hidden><p class="post__comments-title">Comentários</p><div class="post__comment"><strong>Equipe Asimov</strong><span>Conte com a gente nessa jornada.</span></div><form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar no post fixado" required /><button type="submit">Enviar</button></form></div>
+                </article>
+                <article class="post post--featured glass-card" data-featured-slide data-featured-id="live-agents" data-expanded="false" hidden>
+                  <span class="featured__badge"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 6 3 3v2H6v-2l3-3-1-6Zm4 11v7"/></svg>Fixado</span>
+                  <div class="post__header">
+                    <div class="author"><img class="author__avatar" src="assets/reference/instructor-juliano.webp" alt="" /><span><span class="author__name">Juliano <span class="author__verified" aria-label="Professor verificado"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></span><span class="author__meta">há 1 dia</span></span></div>
+                  </div>
+                  <h3>Aula ao vivo: seu primeiro agente de IA</h3>
+                  <p class="post__text">Nesta sexta, às 19h, vamos construir um agente juntos e responder suas dúvidas ao vivo.</p>
+                  <div class="post__details" id="post-details-featured-live" hidden><p class="post__detail-copy">Separe suas perguntas e participe do encontro pela comunidade. Você pode acompanhar mesmo que ainda esteja no começo da trilha.</p></div>
+                  <div class="post__actions">
+                    <button class="post__action post__like" type="button" data-count="24" aria-label="Curtir post fixado de Juliano" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>24</span></button>
+                    <button class="post__action post__comments-toggle" type="button" data-count="6" aria-label="Mostrar comentários do post fixado de Juliano" aria-controls="post-comments-featured-live" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>6</span></button>
+                    <button class="post__action post__expand" type="button" aria-controls="post-details-featured-live" aria-expanded="false"><span class="post__expand-label">Ver post</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                    <button class="post__action featured__complete" type="button" data-featured-complete>Concluir</button>
+                  </div>
+                  <div class="post__comments" id="post-comments-featured-live" hidden><p class="post__comments-title">Comentários</p><div class="post__comment"><strong>Marina</strong><span>Já deixei minhas perguntas separadas!</span></div><form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar no post fixado de Juliano" required /><button type="submit">Enviar</button></form></div>
+                </article>
+              </section>
+
+              <article class="post glass-card is-expanded" data-kind="update" data-expanded="true">
+                <div class="post__header">
+                  <div class="author">
+                    <img class="author__avatar" src="assets/reference/instructor-rodrigo.webp" alt="" />
+                    <span><span class="author__name">Rodrigo Tadewald <span class="author__verified" aria-label="Professor verificado"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></span><span class="author__meta">há 3 dias</span></span>
+                  </div>
+                  <span class="tag"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 3-5 6-6 3 3-6 6-6 2ZM14 8l2-2 3 3-2 2M8 14l2 2"/></svg>Projeto</span>
+                </div>
+                <h3>Como estruturar um portfólio que gera oportunidades</h3>
+                <p class="post__text">No vídeo de hoje eu compartilho o processo que uso para transformar projetos em um portfólio estratégico, com exemplos reais e ajustes que você pode aplicar hoje.</p>
+                <div class="post__details" id="post-details-portfolio">
+                  <div class="post__media post__media--project"><img src="assets/reference/platform-2.png" alt="Demonstração do projeto Auto Retoucher com Rodrigo" /></div>
+                </div>
+                <div class="post__actions">
+                  <button class="post__action post__like" type="button" data-count="96" aria-label="Curtir publicação de Rodrigo Tadewald" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>96</span></button>
+                  <button class="post__action post__comments-toggle" type="button" data-count="17" aria-label="Mostrar comentários da publicação de Rodrigo Tadewald" aria-controls="post-comments-portfolio" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>17</span></button>
+                  <button class="post__action post__expand" type="button" aria-controls="post-details-portfolio" aria-expanded="true"><span class="post__expand-label">Recolher</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                </div>
+                <div class="post__comments" id="post-comments-portfolio" hidden>
+                  <p class="post__comments-title">Comentários</p>
+                  <div class="post__comment"><strong>Marina</strong><span>Adorei ver o projeto tomando forma.</span></div>
+                  <form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar na publicação de Rodrigo" required /><button type="submit">Enviar</button></form>
+                </div>
+              </article>
+
+              <article class="post glass-card" data-kind="announcement" data-expanded="false">
+                <div class="post__header">
+                  <div class="author">
+                    <img class="author__avatar" src="assets/reference/instructor-juliano.webp" alt="" />
+                    <span><span class="author__name">Juliano</span><span class="author__meta">há 1 dia · Aula ao vivo</span></span>
+                  </div>
+                  <span class="tag"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4m8.4-8.4a6 6 0 0 1 0 8.4"/></svg>Ao vivo</span>
+                </div>
+                <h3>RAG na prática: tire suas dúvidas nesta sexta</h3>
+                <p class="post__text">Nesta sexta, às 19h, vamos conversar sobre os principais desafios ao criar aplicações com RAG.</p>
+                <div class="post__details" id="post-details-live" hidden>
+                  <p class="post__detail-copy">Traga suas perguntas e acompanhe os exemplos em tempo real com o professor Juliano.</p>
+                </div>
+                <div class="post__actions">
+                  <button class="post__action post__like" type="button" data-count="24" aria-label="Curtir comunicado de Juliano" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>24</span></button>
+                  <button class="post__action post__comments-toggle" type="button" data-count="6" aria-label="Mostrar comentários do comunicado" aria-controls="post-comments-live" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>6</span></button>
+                  <button class="post__action post__expand" type="button" aria-controls="post-details-live" aria-expanded="false"><span class="post__expand-label">Ver post</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                </div>
+                <div class="post__comments" id="post-comments-live" hidden>
+                  <p class="post__comments-title">Comentários</p>
+                  <div class="post__comment"><strong>Pedro</strong><span>Vou acompanhar a aula ao vivo!</span></div>
+                  <form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar no comunicado de Juliano" required /><button type="submit">Enviar</button></form>
+                </div>
+              </article>
+
+              <article class="post glass-card" data-kind="news" data-expanded="false">
+                <div class="post__header">
+                  <div class="author">
+                    <span class="author__avatar author__avatar--brand" aria-hidden="true">A</span>
+                    <span><span class="author__name">Asimov Academy</span><span class="author__meta">há 4 dias · Novidades</span></span>
+                  </div>
+                  <span class="tag"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Novidade</span>
+                </div>
+                <h3>Nova trilha: Agentes de IA</h3>
+                <p class="post__text">Quatro novos cursos para transformar uma ideia em uma aplicação de IA completa.</p>
+                <div class="post__details" id="post-details-news" hidden>
+                  <div class="post__media post__media--course"><img src="assets/reference/platform-3.png" alt="Catálogo de formações e trilhas Asimov" /></div>
+                </div>
+                <div class="post__actions">
+                  <button class="post__action post__like" type="button" data-count="48" aria-label="Curtir novidade da Asimov Academy" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>48</span></button>
+                  <button class="post__action post__comments-toggle" type="button" data-count="3" aria-label="Mostrar comentários da novidade" aria-controls="post-comments-news" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>3</span></button>
+                  <button class="post__action post__expand" type="button" aria-controls="post-details-news" aria-expanded="false"><span class="post__expand-label">Ver post</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+                </div>
+                <div class="post__comments" id="post-comments-news" hidden>
+                  <p class="post__comments-title">Comentários</p>
+                  <div class="post__comment"><strong>Camila</strong><span>Já quero conhecer os projetos da trilha.</span></div>
+                  <form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar na novidade da Asimov" required /><button type="submit">Enviar</button></form>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <aside class="right" aria-labelledby="continue-title">
+            <div class="right__heading">
+              <h1 id="continue-title">Continue de onde parou</h1>
+            </div>
+            <section class="resume-carousel" aria-label="Cursos em andamento" aria-roledescription="carrossel">
+              <article class="resume" data-resume-slide aria-labelledby="resume-title-1">
+                <div class="resume__cover">
+                  <img src="assets/reference/platform-1.png" alt="Prévia da plataforma de cursos" />
+                  <div class="resume__info"><span class="resume__remaining">12 min restantes</span><h2 id="resume-title-1">RAG na prática</h2></div>
+                  <button class="resume__play" type="button" data-demo="resume" data-course="RAG na prática" aria-label="Continuar RAG na prática"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
+                  <div class="progress" role="progressbar" aria-label="Progresso de RAG na prática" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><span style="width: 62%"></span></div>
+                </div>
+              </article>
+              <article class="resume" data-resume-slide aria-labelledby="resume-title-2" hidden>
+                <div class="resume__cover">
+                  <img src="assets/reference/platform-2.png" alt="Projeto de aplicação com inteligência artificial" />
+                  <div class="resume__info"><span class="resume__remaining">34 min restantes</span><h2 id="resume-title-2">Aplicações com IA</h2></div>
+                  <button class="resume__play" type="button" data-demo="resume" data-course="Aplicações com IA" aria-label="Continuar Aplicações com IA"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
+                  <div class="progress" role="progressbar" aria-label="Progresso de Aplicações com IA" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100"><span style="width: 38%"></span></div>
+                </div>
+              </article>
+              <article class="resume" data-resume-slide aria-labelledby="resume-title-3" hidden>
+                <div class="resume__cover">
+                  <img src="assets/reference/platform-3.png" alt="Catálogo da formação de agentes de inteligência artificial" />
+                  <div class="resume__info"><span class="resume__remaining">18 min restantes</span><h2 id="resume-title-3">Agentes de IA</h2></div>
+                  <button class="resume__play" type="button" data-demo="resume" data-course="Agentes de IA" aria-label="Continuar Agentes de IA"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
+                  <div class="progress" role="progressbar" aria-label="Progresso de Agentes de IA" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"><span style="width: 74%"></span></div>
+                </div>
+              </article>
+              <div class="resume-carousel__controls">
+                <div class="resume-carousel__dots" role="group" aria-label="Selecionar curso">
+                  <button class="resume-carousel__dot" type="button" data-resume-dot="0" aria-label="Mostrar RAG na prática" aria-pressed="true"></button>
+                  <button class="resume-carousel__dot" type="button" data-resume-dot="1" aria-label="Mostrar Aplicações com IA" aria-pressed="false"></button>
+                  <button class="resume-carousel__dot" type="button" data-resume-dot="2" aria-label="Mostrar Agentes de IA" aria-pressed="false"></button>
+                </div>
+                <div class="resume-carousel__arrows">
+                  <button class="resume-carousel__arrow" type="button" data-resume-prev aria-label="Curso anterior"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+                  <button class="resume-carousel__arrow" type="button" data-resume-next aria-label="Próximo curso"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </div>
+            </section>
+
+            <section class="shortcuts" aria-labelledby="shortcuts-title">
+              <h2 id="shortcuts-title">Atalhos úteis</h2>
+              <div class="shortcuts__list">
+                <a class="shortcut" href="#" data-shortcut="Skills"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg><span>Skills</span></a>
+                <a class="shortcut" href="#" data-shortcut="Work"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3V7Z"/></svg><span>Work</span></a>
+                <a class="shortcut" href="#" data-shortcut="Comunidade"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 5v1"/></svg><span>Comunidade</span></a>
+              </div>
+            </section>
+
+            <section class="ranking" aria-labelledby="ranking-title">
+              <div class="ranking__heading"><h2 id="ranking-title">Ranking</h2><a href="#" data-ranking-link>Ver ranking <span aria-hidden="true">→</span></a></div>
+              <ol class="ranking__list" aria-label="Posições próximas à sua">
+                <li class="ranking__row"><span class="ranking__position">#214</span><span class="ranking__avatar" aria-hidden="true">CM</span><span class="ranking__name">Carla Mendes</span><span class="ranking__score">1.312</span></li>
+                <li class="ranking__row"><span class="ranking__position">#215</span><span class="ranking__avatar" aria-hidden="true">BA</span><span class="ranking__name">Bruno Alves</span><span class="ranking__score">1.278</span></li>
+                <li class="ranking__row ranking__row--me" aria-current="true"><span class="ranking__position">#216</span><span class="ranking__avatar"><img src="assets/reference/avatar-1.webp" alt="" /></span><span class="ranking__name">Você<span class="ranking__gain">↑ 38 XP</span></span><span class="ranking__score">1.240<small>XP</small></span></li>
+                <li class="ranking__row"><span class="ranking__position">#217</span><span class="ranking__avatar" aria-hidden="true">PL</span><span class="ranking__name">Pedro Lima</span><span class="ranking__score">1.205</span></li>
+                <li class="ranking__row"><span class="ranking__position">#218</span><span class="ranking__avatar" aria-hidden="true">JR</span><span class="ranking__name">Júlia Rocha</span><span class="ranking__score">1.180</span></li>
+              </ol>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+    <script>
+      const filters = document.querySelectorAll('[data-filter]');
+      const posts = document.querySelectorAll('[data-kind]');
+      const feedback = document.querySelector('#feedback');
+      const featured = document.querySelector('.featured');
+      const featuredSlides = [...document.querySelectorAll('[data-featured-slide]')];
+      const featuredDots = [...document.querySelectorAll('[data-featured-dot]')];
+      const navGroups = document.querySelectorAll('.nav__group');
+      let feedbackTimer;
+
+      function setNavMenu(group, open) {
+        group.querySelector('.nav__trigger').setAttribute('aria-expanded', String(open));
+        group.querySelector('.nav__dropdown').hidden = !open;
+      }
+
+      function closeNavMenus() {
+        navGroups.forEach(group => setNavMenu(group, false));
+      }
+
+      navGroups.forEach(group => {
+        const trigger = group.querySelector('.nav__trigger');
+        trigger.addEventListener('click', event => {
+          event.stopPropagation();
+          if (event.pointerType === 'mouse' && trigger.getAttribute('aria-expanded') === 'true') return;
+          const shouldOpen = trigger.getAttribute('aria-expanded') !== 'true';
+          closeNavMenus();
+          setNavMenu(group, shouldOpen);
+        });
+        group.addEventListener('pointerenter', event => {
+          if (event.pointerType !== 'mouse') return;
+          closeNavMenus();
+          setNavMenu(group, true);
+        });
+        group.addEventListener('pointerleave', event => {
+          if (event.pointerType !== 'mouse') return;
+          if (!group.contains(document.elementFromPoint(event.clientX, event.clientY))) {
+            setNavMenu(group, false);
+          }
+        });
+        group.addEventListener('focusout', event => {
+          if (!group.contains(event.relatedTarget)) setNavMenu(group, false);
+        });
+        group.querySelectorAll('.nav__option').forEach(option => option.addEventListener('click', closeNavMenus));
+      });
+
+      document.addEventListener('click', event => {
+        if (!event.target.closest('.nav__group')) closeNavMenus();
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const openTrigger = document.querySelector('.nav__trigger[aria-expanded="true"]');
+        if (!openTrigger) return;
+        closeNavMenus();
+        openTrigger.focus();
+      });
+
+      function showFeedback(message) {
+        feedback.textContent = message;
+        feedback.classList.add('is-visible');
+        clearTimeout(feedbackTimer);
+        feedbackTimer = setTimeout(() => feedback.classList.remove('is-visible'), 2500);
+      }
+
+      document.querySelector('[data-demo="explore-tracks"]').addEventListener('click', () => {
+        closeNavMenus();
+        showFeedback('Prévia: explorar o catálogo de trilhas.');
+      });
+
+      filters.forEach(filter => filter.addEventListener('click', () => {
+        const kind = filter.getAttribute('aria-pressed') === 'true' ? 'all' : filter.dataset.filter;
+        filters.forEach(item => item.setAttribute('aria-pressed', String(item.dataset.filter === kind)));
+        posts.forEach(post => { post.hidden = kind !== 'all' && post.dataset.kind !== kind; });
+        document.querySelector('.posts').scrollTop = 0;
+      }));
+
+      document.querySelectorAll('.post').forEach(post => {
+        const details = post.querySelector('.post__details');
+        const expandButton = post.querySelector('.post__expand');
+        const commentsButton = post.querySelector('.post__comments-toggle');
+        const comments = post.querySelector('.post__comments');
+        const likeButton = post.querySelector('.post__like');
+
+        function setExpanded(expanded) {
+          post.classList.toggle('is-expanded', expanded);
+          post.dataset.expanded = String(expanded);
+          details.hidden = !expanded;
+          expandButton.setAttribute('aria-expanded', String(expanded));
+          expandButton.querySelector('.post__expand-label').textContent = expanded ? 'Recolher' : 'Ver post';
+          if (!expanded) {
+            comments.hidden = true;
+            commentsButton.setAttribute('aria-expanded', 'false');
+            commentsButton.setAttribute('aria-label', commentsButton.getAttribute('aria-label').replace(/^(Mostrar|Ocultar)/, 'Mostrar'));
+          }
+        }
+
+        setExpanded(post.dataset.expanded === 'true');
+        expandButton.addEventListener('click', () => setExpanded(post.dataset.expanded !== 'true'));
+
+        likeButton.addEventListener('click', () => {
+          const liked = likeButton.getAttribute('aria-pressed') !== 'true';
+          likeButton.setAttribute('aria-pressed', String(liked));
+          likeButton.querySelector('[data-like-count]').textContent = Number(likeButton.dataset.count) + Number(liked);
+        });
+
+        commentsButton.addEventListener('click', () => {
+          const open = comments.hidden;
+          if (open) setExpanded(true);
+          comments.hidden = !open;
+          commentsButton.setAttribute('aria-expanded', String(open));
+          commentsButton.setAttribute('aria-label', commentsButton.getAttribute('aria-label').replace(/^(Mostrar|Ocultar)/, open ? 'Ocultar' : 'Mostrar'));
+          if (open) comments.querySelector('input').focus();
+        });
+
+        comments.querySelector('form').addEventListener('submit', event => {
+          event.preventDefault();
+          const form = event.currentTarget;
+          const input = form.querySelector('input');
+          const message = input.value.trim();
+          if (!message) return;
+          const comment = document.createElement('div');
+          const author = document.createElement('strong');
+          const body = document.createElement('span');
+          comment.className = 'post__comment';
+          author.textContent = 'Você';
+          body.textContent = message;
+          comment.append(author, body);
+          form.before(comment);
+          input.value = '';
+          commentsButton.querySelector('[data-comment-count]').textContent = Number(commentsButton.dataset.count) + comments.querySelectorAll('.post__comment').length - 1;
+        });
+      });
+
+      featuredSlides.forEach(slide => {
+        try { slide.dataset.completed = String(localStorage.getItem(`asimov-hub-featured-${slide.dataset.featuredId}-complete`) === 'true'); }
+        catch (_) { slide.dataset.completed = 'false'; }
+      });
+      function showFeatured(target) {
+        const available = featuredSlides.filter(slide => slide.dataset.completed !== 'true');
+        const active = available.includes(target) ? target : available[0];
+        featured.hidden = available.length === 0;
+        featuredSlides.forEach(slide => { slide.hidden = slide !== active; });
+        featuredDots.forEach((dot, index) => {
+          dot.hidden = !available.includes(featuredSlides[index]);
+          dot.setAttribute('aria-pressed', String(featuredSlides[index] === active));
+        });
+      }
+      showFeatured(featuredSlides[0]);
+      featuredDots.forEach(dot => dot.addEventListener('click', () => showFeatured(featuredSlides[Number(dot.dataset.featuredDot)])));
+      featuredSlides.forEach((slide, index) => slide.querySelector('[data-featured-complete]').addEventListener('click', () => {
+        slide.dataset.completed = 'true';
+        try { localStorage.setItem(`asimov-hub-featured-${slide.dataset.featuredId}-complete`, 'true'); } catch (_) {}
+        showFeatured(featuredSlides[(index + 1) % featuredSlides.length]);
+        showFeedback('Post fixado concluído.');
+      }));
+
+      const resumeSlides = [...document.querySelectorAll('[data-resume-slide]')];
+      const resumeDots = [...document.querySelectorAll('[data-resume-dot]')];
+      let resumeIndex = 0;
+      function showResume(index) {
+        resumeIndex = (index + resumeSlides.length) % resumeSlides.length;
+        resumeSlides.forEach((slide, slideIndex) => { slide.hidden = slideIndex !== resumeIndex; });
+        resumeDots.forEach((dot, dotIndex) => { dot.setAttribute('aria-pressed', String(dotIndex === resumeIndex)); });
+      }
+      document.querySelector('[data-resume-prev]').addEventListener('click', () => showResume(resumeIndex - 1));
+      document.querySelector('[data-resume-next]').addEventListener('click', () => showResume(resumeIndex + 1));
+      resumeDots.forEach(dot => dot.addEventListener('click', () => showResume(Number(dot.dataset.resumeDot))));
+      document.querySelectorAll('[data-demo="resume"]').forEach(button => button.addEventListener('click', () => {
+        showFeedback(`Prévia: continuar ${button.dataset.course}.`);
+      }));
+      document.querySelectorAll('[data-shortcut]').forEach(link => link.addEventListener('click', event => {
+        event.preventDefault();
+        showFeedback(`Prévia: abrir ${link.dataset.shortcut}.`);
+      }));
+      document.querySelector('[data-ranking-link]').addEventListener('click', event => {
+        event.preventDefault();
+        showFeedback('Prévia: abrir o ranking completo.');
+      });
+    </script>
+  </body>
+</html>

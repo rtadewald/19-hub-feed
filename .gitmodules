@@ -1,0 +1,3 @@
+[submodule "asimov-design-system"]
+	path = asimov-design-system
+	url = https://github.com/asimov-academy/asimov-design-system.git
