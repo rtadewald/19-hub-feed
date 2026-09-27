@@ -311,6 +311,8 @@
         .tag { padding: 5px 7px; font-size: 10px; }
         .tag .icon { display: none; }
         .post--featured .post__header { padding-right: 62px; }
+        .post--featured .post__actions { flex-wrap: wrap; }
+        .post--featured .featured__complete { margin-left: auto; white-space: nowrap; }
       }
       @media (prefers-reduced-motion: reduce) {
         .feedback { transition: none; }
@@ -397,7 +399,7 @@
                     <button class="post__action post__like" type="button" data-count="24" aria-label="Curtir post fixado de Juliano" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg><span data-like-count>24</span></button>
                     <button class="post__action post__comments-toggle" type="button" data-count="6" aria-label="Mostrar comentários do post fixado de Juliano" aria-controls="post-comments-featured-live" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 20l1.1-4.3a8.5 8.5 0 1 1 15.9-4.2Z"/></svg><span data-comment-count>6</span></button>
                     <button class="post__action post__expand" type="button" aria-controls="post-details-featured-live" aria-expanded="false"><span class="post__expand-label">Ver post</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-                    <button class="post__action featured__complete" type="button" data-featured-complete>Concluir</button>
+                    <button class="post__action featured__complete" type="button" data-featured-complete>Marcar como visto</button>
                   </div>
                   <div class="post__comments" id="post-comments-featured-live" hidden><p class="post__comments-title">Comentários</p><div class="post__comment"><strong>Marina</strong><span>Já deixei minhas perguntas separadas!</span></div><form class="post__comment-form"><input type="text" maxlength="280" placeholder="Escreva um comentário" aria-label="Comentar no post fixado de Juliano" required /><button type="submit">Enviar</button></form></div>
                 </article>
@@ -714,7 +716,7 @@
         post.dataset.completed = 'true';
         try { localStorage.setItem(`asimov-hub-featured-${post.dataset.featuredId}-complete`, 'true'); } catch (_) {}
         updateFeatured();
-        showFeedback('Post fixado concluído.');
+        showFeedback('Post marcado como visto.');
       }));
 
       const resumeSlides = [...document.querySelectorAll('[data-resume-slide]')];
