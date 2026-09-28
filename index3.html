@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050505" />
-    <meta name="description" content="Variação do hub Asimov Academy com feed e área de progresso em proporção 40/60." />
-    <title>Início · Layout 40/60 · Asimov Academy</title>
+    <meta name="description" content="Variação do hub Asimov Academy com três colunas: conteúdos, feed e comunidade." />
+    <title>Início · Layout 3 colunas · Asimov Academy</title>
     <link rel="icon" type="image/png" href="asimov-design-system/assets/overview/favicon.png" />
     <link rel="stylesheet" href="asimov-design-system/assets/components/backgrounds/css/aurora.css" />
     <style>
@@ -367,6 +367,65 @@
         .shortcut__glow-spin { animation: none; }
         .my-content__track { transition: none; }
       }
+
+      /* V3: conteúdos | feed | atalhos e ranking. */
+      .main { width: 100%; max-width: none; }
+      .columns { grid-template-columns: minmax(0, 27fr) minmax(0, 45fr) minmax(0, 28fr); grid-template-rows: auto minmax(0, 1fr); }
+      .right, .dashboard-bottom { display: contents; }
+      .v3-start { grid-column: 1; grid-row: 1; min-width: 0; padding: 28px 24px 20px; }
+      .right__heading { position: static; width: auto; height: auto; margin-bottom: 17px; overflow: visible; clip-path: none; white-space: normal; }
+      .right__heading::before { display: block; margin-bottom: 8px; color: #8e9a9d; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; content: 'Conteúdo'; }
+      .right__heading h1 { font-size: clamp(20px, 1.65vw, 28px); font-weight: 500; letter-spacing: -.035em; }
+      .v3-start .resume-carousel { width: 100%; }
+      .v3-start .resume { position: relative; display: block; }
+      .v3-start .resume__cover { width: 100%; border-radius: 16px; }
+      .v3-start .resume__remaining { bottom: 48px; left: 15px; }
+      .v3-start .resume__play { top: auto; right: 14px; bottom: 16px; left: auto; width: 42px; height: 42px; transform: none; border: 0; background: var(--ui-accent); }
+      .v3-start .resume__arrow { position: absolute; top: 50%; grid-column: auto; grid-row: auto; transform: translateY(-50%); }
+      .v3-start .resume__arrow--prev { left: 5px; }
+      .v3-start .resume__arrow--next { right: 5px; }
+      .v3-start .resume__content { position: absolute; z-index: 2; right: 64px; bottom: 15px; left: 15px; display: block; padding: 0; pointer-events: none; }
+      .v3-start .resume__eyebrow, .v3-start .resume__description, .v3-start .resume__continue { display: none; }
+      .v3-start .resume h2 { margin: 0; color: #f3f6f6; background: none; -webkit-text-fill-color: currentColor; font-size: clamp(17px, 1.45vw, 24px); font-weight: 500; line-height: 1.15; }
+      .v3-start .resume-carousel__controls { width: 100%; }
+      .my-content { grid-column: 1; grid-row: 2; min-width: 0; margin: 0 24px; padding: 20px 0 30px; }
+      .my-content__head { margin-bottom: 12px; }
+      .my-content__carousel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .my-content__viewport { grid-column: 1 / -1; grid-row: 1; height: 258px; }
+      .my-content__track { flex-direction: column; gap: 8px; }
+      .my-content__card { display: flex; align-items: center; gap: 11px; flex: none; min-height: 58px; padding: 6px 10px; border: 1px solid rgb(255 255 255 / .1); border-radius: 12px; background: rgb(255 255 255 / .035); }
+      .my-content__card::after { margin-left: auto; color: #7d898b; content: '›'; font-size: 22px; }
+      .my-content__thumb { width: 44px; height: 44px; flex: none; aspect-ratio: auto; border-radius: 8px; }
+      .my-content__name { font-size: 12px; white-space: normal; }
+      .my-content__arrow { position: static; top: auto; grid-row: 2; transform: none; }
+      .my-content__arrow--prev { grid-column: 1; justify-self: start; }
+      .my-content__arrow--next { grid-column: 2; justify-self: end; }
+      .feed { grid-column: 2; grid-row: 1 / 3; min-width: 0; height: 100%; padding: 28px 28px 0; border-right: 1px solid var(--line); border-left: 1px solid var(--line); }
+      .feed__heading { margin-bottom: 15px; color: #a2acb1; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; }
+      .useful-links { grid-column: 3; grid-row: 1; min-width: 0; padding: 28px 24px 20px; border: 0; }
+      .ranking { grid-column: 3; grid-row: 2; min-width: 0; margin: 0 24px; padding: 20px 0 30px; border-top: 1px solid var(--line); }
+      .ranking__row { grid-template-columns: 34px 26px minmax(0, 1fr) auto; gap: 6px; padding: 0 4px; }
+      .ranking__row--me { grid-template-columns: 34px 36px minmax(0, 1fr) auto; padding: 8px; }
+      @media (min-width: 821px) {
+        .columns { height: 100%; }
+        .feed { padding-top: 28px; }
+        .v3-start, .my-content, .useful-links, .ranking { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgb(255 255 255 / .18) transparent; }
+      }
+      @media (max-width: 1100px) {
+        .app { height: auto; min-height: 100vh; overflow: visible; }
+        .main { height: auto; padding: 0 20px 48px; }
+        .columns { display: flex; flex-direction: column; height: auto; }
+        .v3-start, .my-content, .feed, .useful-links, .ranking { width: 100%; height: auto; margin-right: 0; margin-left: 0; padding: 22px 0; overflow: visible; border-right: 0; border-left: 0; }
+        .v3-start { order: 1; }
+        .my-content { order: 2; border-top: 1px solid var(--line); }
+        .feed { order: 3; border-top: 1px solid var(--line); }
+        .useful-links { order: 4; border-top: 1px solid var(--line); }
+        .ranking { display: block; order: 5; }
+        .right__heading h1 { font-size: 24px; }
+        .v3-start .resume h2 { font-size: 22px; }
+        .my-content__viewport { height: 258px; }
+        .posts { overflow: visible; }
+      }
     </style>
     <script defer src="asimov-design-system/assets/components/backgrounds/js/aurora.js"></script>
   </head>
@@ -424,6 +483,7 @@
       <main class="main" id="inicio">
         <div class="columns">
           <section class="feed" aria-label="Feed de conteúdo">
+            <h2 class="feed__heading">Feed</h2>
             <div class="section-head">
               <div class="filters" role="group" aria-label="Filtrar por tipo de conteúdo">
                 <button class="filter" type="button" data-filter="all" aria-pressed="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Todos</button>
@@ -528,8 +588,9 @@
           </section>
 
           <aside class="right" aria-labelledby="continue-title">
+            <div class="v3-start">
             <div class="right__heading">
-              <h1 id="continue-title">Continue de onde parou</h1>
+              <h1 id="continue-title">Comece por aqui</h1>
             </div>
             <section class="resume-carousel" aria-label="Cursos em andamento" aria-roledescription="carrossel">
               <article class="resume" data-resume-slide aria-labelledby="resume-title-1">
@@ -586,6 +647,7 @@
               </div>
             </section>
 
+            </div>
             <section class="my-content" aria-labelledby="my-content-title">
               <div class="my-content__head">
                 <h2 class="my-content__title" id="my-content-title">Meus conteúdos</h2>
@@ -841,10 +903,10 @@
       const myContentCards = [...myContentTrack.querySelectorAll('.my-content__card')];
       let myContentIndex = 0;
       function updateMyContent() {
-        const visibleCount = matchMedia('(max-width: 420px)').matches ? 1 : matchMedia('(max-width: 700px)').matches ? 2 : 3;
+        const visibleCount = 4;
         myContentIndex = Math.min(myContentIndex, myContentCards.length - visibleCount);
-        const offset = myContentCards[myContentIndex].offsetLeft - myContentCards[0].offsetLeft;
-        myContentTrack.style.transform = `translateX(-${offset}px)`;
+        const offset = myContentCards[myContentIndex].offsetTop - myContentCards[0].offsetTop;
+        myContentTrack.style.transform = `translateY(-${offset}px)`;
         myContentCards.forEach((card, index) => {
           const visible = index >= myContentIndex && index < myContentIndex + visibleCount;
           card.tabIndex = visible ? 0 : -1;
@@ -852,7 +914,7 @@
         });
       }
       function advanceMyContent(direction) {
-        const visibleCount = matchMedia('(max-width: 420px)').matches ? 1 : matchMedia('(max-width: 700px)').matches ? 2 : 3;
+        const visibleCount = 4;
         const positions = myContentCards.length - visibleCount + 1;
         myContentIndex = (myContentIndex + direction + positions) % positions;
         updateMyContent();
