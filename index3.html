@@ -77,6 +77,7 @@
         -webkit-backdrop-filter: blur(12px);
       }
       .topbar__inner {
+        position: relative;
         width: calc(100% - 48px);
         height: 100%;
         display: flex;
@@ -86,7 +87,7 @@
       }
       .brand { display: inline-flex; align-items: center; flex: none; }
       .brand img { display: block; width: 86px; height: auto; }
-      .nav { display: flex; align-self: stretch; align-items: center; gap: 26px; }
+      .nav { position: absolute; top: 0; left: 50%; display: flex; align-self: stretch; align-items: center; gap: 26px; height: 100%; transform: translateX(-50%); }
       .nav__group { position: relative; display: flex; align-self: stretch; }
       .nav > a, .nav__trigger { display: flex; align-items: center; gap: 9px; align-self: stretch; position: relative; padding: 0; border: 0; color: #abb0b8; background: transparent; font-size: 14px; font-weight: 400; white-space: nowrap; transition: color .2s ease; }
       .nav > a:hover, .nav > a[aria-current="page"], .nav__trigger:hover, .nav__trigger[aria-expanded="true"] { color: #e7e8eb; }
@@ -372,34 +373,51 @@
       .main { width: 100%; max-width: none; }
       .columns { grid-template-columns: minmax(0, 27fr) minmax(0, 45fr) minmax(0, 28fr); grid-template-rows: auto minmax(0, 1fr); }
       .right, .dashboard-bottom { display: contents; }
-      .v3-start { grid-column: 1; grid-row: 1; min-width: 0; padding: 28px 24px 20px; }
-      .right__heading { position: static; width: auto; height: auto; margin-bottom: 17px; overflow: visible; clip-path: none; white-space: normal; }
-      .right__heading::before { display: block; margin-bottom: 8px; color: #8e9a9d; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; content: 'Conteúdo'; }
+      .v3-start { position: relative; grid-column: 1; grid-row: 1; min-width: 0; padding: 28px 24px 20px; }
+      .right__heading { position: static; width: auto; height: auto; margin-bottom: 17px; padding-right: 132px; overflow: visible; clip-path: none; white-space: normal; }
+      .right__heading::before { display: block; margin-bottom: 8px; color: #8e9a9d; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; content: 'Continue a estudar'; }
+      .v3-start.is-start-preview .right__heading::before { content: 'Seu primeiro passo'; }
       .right__heading h1 { font-size: clamp(20px, 1.65vw, 28px); font-weight: 500; letter-spacing: -.035em; }
-      .v3-start .resume-carousel { width: 100%; }
+      .v3-start .right__heading h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+      .start-preview-toggle { position: absolute; top: 23px; right: 24px; display: inline-flex; align-items: center; gap: 7px; color: #89969a; cursor: pointer; font-size: 10px; white-space: nowrap; }
+      .start-preview-toggle:hover { color: #d5e3e1; }
+      .start-preview-toggle input { width: 14px; height: 14px; margin: 0; accent-color: var(--ui-accent); cursor: pointer; }
+      .start-preview-toggle input:focus-visible { outline: 2px solid var(--ui-accent-light); outline-offset: 3px; }
+      .v3-start .resume-carousel { width: calc(100% - 48px); margin: 0 auto; }
       .v3-start .resume { position: relative; display: block; }
       .v3-start .resume__cover { width: 100%; border-radius: 16px; }
       .v3-start .resume__remaining { bottom: 48px; left: 15px; }
       .v3-start .resume__play { top: auto; right: 14px; bottom: 16px; left: auto; width: 42px; height: 42px; transform: none; border: 0; background: var(--ui-accent); }
-      .v3-start .resume__arrow { position: absolute; top: 50%; grid-column: auto; grid-row: auto; transform: translateY(-50%); }
-      .v3-start .resume__arrow--prev { left: 5px; }
-      .v3-start .resume__arrow--next { right: 5px; }
+      .v3-start .resume__arrow { position: absolute; top: 50%; grid-column: auto; grid-row: auto; transform: translateY(-50%); color: #d8e2e2; background: transparent; }
+      .v3-start .resume__arrow--prev { left: -34px; }
+      .v3-start .resume__arrow--next { right: -34px; }
       .v3-start .resume__content { position: absolute; z-index: 2; right: 64px; bottom: 15px; left: 15px; display: block; padding: 0; pointer-events: none; }
       .v3-start .resume__eyebrow, .v3-start .resume__description, .v3-start .resume__continue { display: none; }
       .v3-start .resume h2 { margin: 0; color: #f3f6f6; background: none; -webkit-text-fill-color: currentColor; font-size: clamp(17px, 1.45vw, 24px); font-weight: 500; line-height: 1.15; }
       .v3-start .resume-carousel__controls { width: 100%; }
+      .start-invite { display: flex; flex-direction: column; justify-content: center; min-height: 240px; margin: 0 24px; padding: 27px 25px; border-radius: 17px; }
+      .start-invite h2 { color: #f4f7f6; font-size: clamp(27px, 2.2vw, 38px); font-weight: 500; letter-spacing: -.045em; line-height: 1.08; }
+      .start-invite p { max-width: 32ch; margin-top: 11px; color: #aab8b9; font-size: 12px; line-height: 1.5; }
+      .start-invite__cta { align-self: flex-start; min-height: 43px; margin-top: 22px; padding: 7px 14px; }
+      .start-invite__cta .shortcut__label { font-size: 12px; }
       .my-content { grid-column: 1; grid-row: 2; min-width: 0; margin: 0 24px; padding: 20px 0 30px; }
-      .my-content__head { margin-bottom: 12px; }
-      .my-content__carousel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-      .my-content__viewport { grid-column: 1 / -1; grid-row: 1; height: 258px; }
-      .my-content__track { flex-direction: column; gap: 8px; }
-      .my-content__card { display: flex; align-items: center; gap: 11px; flex: none; min-height: 58px; padding: 6px 10px; border: 1px solid rgb(255 255 255 / .1); border-radius: 12px; background: rgb(255 255 255 / .035); }
-      .my-content__card::after { margin-left: auto; color: #7d898b; content: '›'; font-size: 22px; }
-      .my-content__thumb { width: 44px; height: 44px; flex: none; aspect-ratio: auto; border-radius: 8px; }
-      .my-content__name { font-size: 12px; white-space: normal; }
-      .my-content__arrow { position: static; top: auto; grid-row: 2; transform: none; }
-      .my-content__arrow--prev { grid-column: 1; justify-self: start; }
-      .my-content__arrow--next { grid-column: 2; justify-self: end; }
+      .my-content__head { margin-bottom: 13px; }
+      .my-content__title { color: #a2acb1; font-size: 10px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; }
+      .my-content__list { display: grid; gap: 9px; }
+      .my-content__card { --track-accent: #06b6d4; display: grid; grid-template-columns: 46px minmax(0, 1fr) 27px; align-items: center; gap: 11px; min-height: 69px; padding: 9px; border: 1px solid rgb(255 255 255 / .12); border-radius: 14px; color: #e9eeee; background: rgb(255 255 255 / .025); }
+      .my-content__card:hover { border-color: var(--track-accent); color: #fff; background: rgb(255 255 255 / .045); }
+      .my-content__card--python { --track-accent: #0ea5e9; }
+      .my-content__card--generative { --track-accent: #a855f7; }
+      .my-content__card--applications { --track-accent: #00a5ff; }
+      .my-content__card--agents { --track-accent: #06b6d4; }
+      .my-content__card.is-current { border-color: color-mix(in srgb, var(--track-accent) 55%, transparent); }
+      .my-content__tile { display: grid; place-items: center; width: 46px; height: 46px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--track-accent) 25%, #252d30); border-radius: 12px; color: var(--track-accent); background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--track-accent) 24%, transparent), transparent 60%), radial-gradient(circle, rgb(255 255 255 / .11) 1px, transparent 1px) 0 0 / 9px 9px, #0b1113; }
+      .my-content__tile .icon { width: 22px; height: 22px; }
+      .my-content__copy { display: grid; gap: 4px; min-width: 0; }
+      .my-content__copy strong { overflow: hidden; font-size: 13px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+      .my-content__copy small { overflow: hidden; color: #929da0; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+      .my-content__card.is-current .my-content__copy small { color: var(--track-accent); }
+      .my-content__chevron { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; color: #aeb8ba; background: rgb(255 255 255 / .06); font-size: 22px; line-height: 1; }
       .feed { grid-column: 2; grid-row: 1 / 3; min-width: 0; height: 100%; padding: 28px 28px 0; border-right: 1px solid var(--line); border-left: 1px solid var(--line); }
       .feed__heading { margin-bottom: 15px; color: #a2acb1; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; }
       .useful-links { grid-column: 3; grid-row: 1; min-width: 0; padding: 28px 24px 20px; border: 0; }
@@ -423,8 +441,12 @@
         .ranking { display: block; order: 5; }
         .right__heading h1 { font-size: 24px; }
         .v3-start .resume h2 { font-size: 22px; }
-        .my-content__viewport { height: 258px; }
         .posts { overflow: visible; }
+      }
+      @media (max-width: 420px) {
+        .right__heading { padding-right: 115px; }
+        .start-preview-toggle { right: 0; font-size: 9px; }
+        .start-invite { min-height: 250px; margin: 0 16px; padding: 24px 20px; }
       }
     </style>
     <script defer src="asimov-design-system/assets/components/backgrounds/js/aurora.js"></script>
@@ -590,9 +612,10 @@
           <aside class="right" aria-labelledby="continue-title">
             <div class="v3-start">
             <div class="right__heading">
-              <h1 id="continue-title">Comece por aqui</h1>
+              <h1 id="continue-title">Continue a estudar</h1>
             </div>
-            <section class="resume-carousel" aria-label="Cursos em andamento" aria-roledescription="carrossel">
+            <label class="start-preview-toggle" title="Alternar prévia da página para quem ainda não começou a estudar"><input type="checkbox" id="start-preview-toggle" aria-controls="resume-carousel start-invite" /><span>Prévia: sem estudos</span></label>
+            <section class="resume-carousel" id="resume-carousel" aria-label="Cursos em andamento" aria-roledescription="carrossel">
               <article class="resume" data-resume-slide aria-labelledby="resume-title-1">
                 <div class="resume__cover">
                   <img src="assets/course-ai-thumb.webp" alt="" />
@@ -646,24 +669,22 @@
                 </div>
               </div>
             </section>
+            <section class="start-invite glass-card" id="start-invite" aria-labelledby="start-invite-title" hidden>
+              <h2 id="start-invite-title">Comece a estudar</h2>
+              <p>Você ainda não começou a estudar. Escolha uma trilha para dar o primeiro passo.</p>
+              <button class="shortcut shortcut--glow start-invite__cta" type="button" data-choose-track><span class="shortcut__glow-border" aria-hidden="true"><span class="shortcut__glow-spin"></span></span><span class="shortcut__glow-inner" aria-hidden="true"></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg><span class="shortcut__label">Escolher uma trilha</span></button>
+            </section>
 
             </div>
             <section class="my-content" aria-labelledby="my-content-title">
               <div class="my-content__head">
                 <h2 class="my-content__title" id="my-content-title">Meus conteúdos</h2>
               </div>
-              <div class="my-content__carousel">
-                <button class="my-content__arrow my-content__arrow--prev" type="button" data-my-content-prev aria-label="Ver conteúdos anteriores"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-                <div class="my-content__viewport">
-                  <div class="my-content__track" data-my-content-track>
-                    <a class="my-content__card" href="#" data-course-link="Engenheiro de Agentes de IA"><span class="my-content__thumb my-content__thumb--agents" aria-hidden="true"></span><span class="my-content__name">Engenheiro de Agentes de IA</span></a>
-                    <a class="my-content__card" href="#" data-course-link="AI Designer"><span class="my-content__thumb my-content__thumb--designer" aria-hidden="true"></span><span class="my-content__name">AI Designer</span></a>
-                    <a class="my-content__card" href="#" data-course-link="Analista de Dados"><span class="my-content__thumb my-content__thumb--data" aria-hidden="true"></span><span class="my-content__name">Analista de Dados</span></a>
-                    <a class="my-content__card" href="#" data-course-link="Python para Web"><span class="my-content__thumb my-content__thumb--python" aria-hidden="true"></span><span class="my-content__name">Python para Web</span></a>
-                    <a class="my-content__card" href="#" data-course-link="Projeto Auto Retoucher"><span class="my-content__thumb my-content__thumb--project" aria-hidden="true"></span><span class="my-content__name">Projeto Auto Retoucher</span></a>
-                  </div>
-                </div>
-                <button class="my-content__arrow my-content__arrow--next" type="button" data-my-content-next aria-label="Ver próximos conteúdos"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+              <div class="my-content__list">
+                <a class="my-content__card my-content__card--python" href="#" data-course-link="Fundamentos de Python"><span class="my-content__tile" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span><span class="my-content__copy"><strong>Fundamentos de Python</strong><small>Concluída · 4 cursos</small></span><span class="my-content__chevron" aria-hidden="true">›</span></a>
+                <a class="my-content__card my-content__card--generative" href="#" data-course-link="IA Generativa"><span class="my-content__tile" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span><span class="my-content__copy"><strong>IA Generativa</strong><small>Concluída · 4 cursos</small></span><span class="my-content__chevron" aria-hidden="true">›</span></a>
+                <a class="my-content__card my-content__card--applications is-current" href="#" data-course-link="Aplicações práticas" aria-current="step"><span class="my-content__tile" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span><span class="my-content__copy"><strong>Aplicações práticas</strong><small>Em andamento · 3 de 16 cursos</small></span><span class="my-content__chevron" aria-hidden="true">›</span></a>
+                <a class="my-content__card my-content__card--agents" href="#" data-course-link="Agentes de IA"><span class="my-content__tile" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span><span class="my-content__copy"><strong>Agentes de IA</strong><small>4 cursos · Não iniciada</small></span><span class="my-content__chevron" aria-hidden="true">›</span></a>
               </div>
             </section>
 
@@ -896,34 +917,27 @@
       document.querySelectorAll('[data-resume-prev]').forEach(button => button.addEventListener('click', () => showResume(resumeIndex - 1)));
       document.querySelectorAll('[data-resume-next]').forEach(button => button.addEventListener('click', () => showResume(resumeIndex + 1)));
       resumeDots.forEach(dot => dot.addEventListener('click', () => showResume(Number(dot.dataset.resumeDot))));
+      const startPreviewToggle = document.querySelector('#start-preview-toggle');
+      const startSection = document.querySelector('.v3-start');
+      const resumeCarousel = document.querySelector('#resume-carousel');
+      const startInvite = document.querySelector('#start-invite');
+      const startHeading = document.querySelector('#continue-title');
+      startPreviewToggle.addEventListener('change', () => {
+        const isPreview = startPreviewToggle.checked;
+        startSection.classList.toggle('is-start-preview', isPreview);
+        resumeCarousel.hidden = isPreview;
+        startInvite.hidden = !isPreview;
+        startHeading.textContent = isPreview ? 'Comece a estudar' : 'Continue a estudar';
+      });
+      document.querySelector('[data-choose-track]').addEventListener('click', () => {
+        const firstTrack = document.querySelector('.my-content__card');
+        firstTrack.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        firstTrack.focus({ preventScroll: true });
+      });
       document.querySelectorAll('[data-demo="resume"]').forEach(button => button.addEventListener('click', () => {
         showFeedback(`Prévia: continuar ${button.dataset.course}.`);
       }));
-      const myContentTrack = document.querySelector('[data-my-content-track]');
-      const myContentCards = [...myContentTrack.querySelectorAll('.my-content__card')];
-      let myContentIndex = 0;
-      function updateMyContent() {
-        const visibleCount = 4;
-        myContentIndex = Math.min(myContentIndex, myContentCards.length - visibleCount);
-        const offset = myContentCards[myContentIndex].offsetTop - myContentCards[0].offsetTop;
-        myContentTrack.style.transform = `translateY(-${offset}px)`;
-        myContentCards.forEach((card, index) => {
-          const visible = index >= myContentIndex && index < myContentIndex + visibleCount;
-          card.tabIndex = visible ? 0 : -1;
-          card.setAttribute('aria-hidden', String(!visible));
-        });
-      }
-      function advanceMyContent(direction) {
-        const visibleCount = 4;
-        const positions = myContentCards.length - visibleCount + 1;
-        myContentIndex = (myContentIndex + direction + positions) % positions;
-        updateMyContent();
-      }
-      document.querySelector('[data-my-content-prev]').addEventListener('click', () => advanceMyContent(-1));
-      document.querySelector('[data-my-content-next]').addEventListener('click', () => advanceMyContent(1));
-      window.addEventListener('resize', updateMyContent);
-      updateMyContent();
-      myContentCards.forEach(card => card.addEventListener('click', event => {
+      document.querySelectorAll('.my-content__card').forEach(card => card.addEventListener('click', event => {
         event.preventDefault();
         showFeedback(`Prévia: abrir ${card.dataset.courseLink}.`);
       }));
